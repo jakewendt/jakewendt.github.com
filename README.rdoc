@@ -18,9 +18,11 @@ http://jakewendt.com
 
 GoDaddy setup for hosting static jakewendt.com on github.
 
-Changed A (Host) from 50.63.202.40 TO 192.30.252.15D
-
 Added CName (Alias) for www points to jakewendt.github.com
+  (this gets www.jakewendt.com)
+
+Changed A (Host) from 50.63.202.40 TO 192.30.252.153
+  (this gets jakewendt.com)
 
 Can take minutes or hours to work, so waiting .......
 
