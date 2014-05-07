@@ -1,4 +1,20 @@
+= jakewendt.github.com
 
+This should be accessible as 
+
+http://jakewendt.github.io
+
+http://jakewendt.github.com
+
+http://www.jakewendt.com
+
+http://jakewendt.com
+
+
+
+
+
+== Prep
 
 GoDaddy setup for hosting static jakewendt.com on github.
 
@@ -14,5 +30,7 @@ Can take minutes or hours to work, so waiting .......
 
 
 https://pages.github.com/
+
 https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages
+
 http://opentechschool.github.io/social-coding/extras/pages.html
