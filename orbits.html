@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>Orbits</title>
+<style>
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+var G = 6.67384e-11;	//	N m^2 / kg^2
+var step_size = 3600;	// seconds
+var bodies = [];
+function Body(_options){
+	var options = {
+		name:     'UnNamed',
+		mass:     1.9891e30, //	kg
+		position: [0,0],	// m
+		velocity: [0,0]		// m/s
+	}
+	$.extend( true, options, _options );
+	this.name = options.name;
+	this.mass = options.mass;
+	this.position = options.position;
+	this.velocity = options.velocity;
+	this.reposition = function(){
+		this.position=[ this.position[0]+(this.velocity[0]*step_size) , this.position[1]+(this.velocity[1]*step_size) ];
+	};
+	this.revelocity = function(bodies){
+		me = this;
+		fx = 0;
+		fy = 0;
+		$.each(bodies,function(){ 
+			if( this.name != me.name ){
+				theta = Math.atan( (me.position[1]-this.position[1]) / (me.position[0]-this.position[0]) );
+				dsquared = Math.pow( (me.position[0]-this.position[0]), 2 ) + Math.pow( (me.position[1]-this.position[1]), 2 );
+				f = ( G * me.mass * this.mass ) / dsquared;
+				fx = fx + ( f * Math.cos( theta ) );
+				fy = fy + ( f * Math.sin( theta ) );
+$("#f").text( f );
+$("#fx").text( fx );
+$("#fy").text( fy );
+$("#theta").text( theta );
+			}
+		});
+
+		this.velocity = [ this.velocity[0] + ( fx / me.mass ), this.velocity[1] + ( fy / me.mass ) ];
+	};
+};
+$(function(){
+//	bodies.push( new Body({ name: 'Sun' }) );
+	bodies.push( new Body({
+		name: 'Earth',
+		mass: 5.97219e24 //,
+//		position: [1.49598261e11,0],	// m
+//		velocity: [0,29.78e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Luna',
+		mass: 0.07342e24,
+		position: [0.384748e9,0],	// m
+		velocity: [0,1023]	// m/s
+	}) );
+	$('div#root').append("<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th>Position (m)</th><th>Velocity (m/s)</th></tr></thead><tbody></tbody></table>");
+	$('div#root').append("<p id='f'></p>");
+	$('div#root').append("<p id='fx'></p>");
+	$('div#root').append("<p id='fy'></p>");
+	$('div#root').append("<p id='theta'></p>");
+	$('div#root').append("<button id='step'>Step</button>");
+	$('div#root').append("<button id='stop'>Stop</button>");
+	$.each(bodies,function(){
+		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='position'>"+this.position+"</td><td class='velocity'>"+this.velocity+"</td></tr>");
+	});
+
+
+
+	var runningid = setInterval(function(){
+		$.each(bodies,function(){ 
+			this.reposition(); 
+			$("tr#"+this.name+" td.position").text( this.position );
+		})
+		$.each(bodies,function(){ 
+			this.revelocity(bodies);
+			$("tr#"+this.name+" td.velocity").text( this.velocity );
+		});
+	}, 10);
+
+
+	$('button#stop').click(function(){ clearInterval(runningid); });
+
+});
+</script>
+</head>
+<body>
+<div id='root'></div>
+</body>
+</html>
