@@ -10,7 +10,7 @@ var time = 0;  // seconds
 var delta_t = 28800;	// seconds
 var scale = 200000000;	//	meters to pixels
 var bodies = [];
-var canvas_size = 2000;
+var canvas_size = 3000;
 function Body(_options){
 	var options = {
 		name:     'UnNamed',
@@ -91,7 +91,7 @@ $(function(){
 	bodies.push( new Body({
 		ctx: ctx,
 		name: 'Venus',
-		mass: 4.8676e27,
+		mass: 4.8676e24,
 		position: [1.08208e11,0],	// m
 		velocity: [0,35.02e3]
 	}) );
@@ -105,10 +105,17 @@ $(function(){
 	bodies.push( new Body({
 		ctx: ctx,
 		name: 'Luna',
-		mass: 0.07342e24,
-		position: [ 1.49598261e11 + 0.384748e9, 0 ],	// m
-		velocity: [0, 29.78e3 + 1023]	// m/s
+		mass: 7.3477e22,	// kg
+		position: [ 1.49598261e11 + 3.84399e8, 0 ],	// m
+		velocity: [0, 29.78e3 + 1022]	// m/s
 	})  );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Mars',
+		mass: 6.4185e23,	// kg
+		position: [2.299391e11,0],	// m
+		velocity: [0,24.077e3]	// m/s
+	}) );
 
 //	bodies.push( new Body({
 //		ctx: ctx,
