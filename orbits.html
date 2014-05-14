@@ -7,9 +7,10 @@
 <script type="text/javascript">
 var G = 6.67384e-11;	//	N m^2 / kg^2
 var time = 0;  // seconds
-var delta_t = 14400;	// seconds
-var scale = 1000000;	//	meters to pixels
+var delta_t = 28800;	// seconds
+var scale = 200000000;	//	meters to pixels
 var bodies = [];
+var canvas_size = 2000;
 function Body(_options){
 	var options = {
 		name:     'UnNamed',
@@ -32,7 +33,7 @@ function Body(_options){
 	this.plot = function(){
 		if( typeof this.ctx == 'object' ){
 			this.ctx.beginPath();
-			this.ctx.arc( 500+(this.x/scale),500+(-this.y/scale),1,0,2*Math.PI);	// - added to invert y-axis
+			this.ctx.arc( (canvas_size/2)+(this.x/scale),(canvas_size/2)+(-this.y/scale),1,0,2*Math.PI);	// - added to invert y-axis
 			this.ctx.fill();
 		}
 	};
@@ -75,26 +76,53 @@ $(function(){
 	$('div#root').append("<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th><th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead><tbody></tbody></table>");
 	$('div#root').append("<p>Days&nbsp;<span id='days'></span></p>");
 	$('div#root').append("<button id='stop'>Stop</button>");
-	$('div#root').append("<canvas id='myCanvas' width='1000' height='1000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
+	$('div#root').append("<canvas id='myCanvas' width='"+canvas_size+"' height='"+canvas_size+"' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
 
 	var ctx = document.getElementById("myCanvas").getContext("2d");
 
-//	bodies.push( new Body({ name: 'Sun' }) );
+	bodies.push( new Body({ ctx: ctx, name: 'Sun' }) );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Mercury',
+		mass: 3.3022e23,
+		position: [5.7909050e10,0],	// m
+		velocity: [0,47.362e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Venus',
+		mass: 4.8676e27,
+		position: [1.08208e11,0],	// m
+		velocity: [0,35.02e3]
+	}) );
 	bodies.push( new Body({
 		ctx: ctx,
 		name: 'Earth',
 		mass: 5.97219e24,
-		velocity: [0,-12.5]	// m/s		//	need a properly balanced initial condition or the orbit will wander off
-//		position: [1.49598261e11,0],	// m
-//		velocity: [0,29.78e3]	// m/s
+		position: [1.49598261e11,0],	// m
+		velocity: [0,29.78e3]	// m/s
 	}) );
 	bodies.push( new Body({
 		ctx: ctx,
 		name: 'Luna',
 		mass: 0.07342e24,
-		position: [0.384748e9,0],	// m
-		velocity: [0,1023]	// m/s
+		position: [ 1.49598261e11 + 0.384748e9, 0 ],	// m
+		velocity: [0, 29.78e3 + 1023]	// m/s
 	})  );
+
+//	bodies.push( new Body({
+//		ctx: ctx,
+//		name: 'Earth',
+//		mass: 5.97219e24,
+//		velocity: [0,-12.5]	// m/s		//	need a properly balanced initial condition or the orbit will wander off
+//	}) );
+//	bodies.push( new Body({
+//		ctx: ctx,
+//		name: 'Luna',
+//		mass: 0.07342e24,
+//		position: [0.384748e9,0],	// m
+//		velocity: [0,1023]	// m/s
+//	})  );
 
 	$.each(bodies,function(){
 		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
