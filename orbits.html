@@ -7,7 +7,7 @@
 <script type="text/javascript">
 var G = 6.67384e-11;	//	N m^2 / kg^2
 var time = 0;  // seconds
-var delta_t = 7200;	// seconds
+var delta_t = 14400;	// seconds
 var scale = 1000000;	//	meters to pixels
 var bodies = [];
 function Body(_options){
@@ -28,14 +28,18 @@ function Body(_options){
 	this.vy = this.velocity[1];
 	this.fx = null;
 	this.fy = null;
+	this.ctx = options.ctx;
+	this.plot = function(){
+		if( typeof this.ctx == 'object' ){
+			this.ctx.beginPath();
+			this.ctx.arc( 500+(this.x/scale),500+(-this.y/scale),1,0,2*Math.PI);	// - added to invert y-axis
+			this.ctx.fill();
+		}
+	};
 	this.reposition = function(){
 		this.x = this.x+(this.vx*delta_t);
 		this.y = this.y+(this.vy*delta_t);
-		if( typeof options.ctx == 'object' ){
-			options.ctx.beginPath();
-			options.ctx.arc( 500+(this.x/scale),500+(-this.y/scale),1,0,2*Math.PI);	// - added to invert y-axis
-			options.ctx.fill();
-		}
+		this.plot();
 		$("tr#"+this.name+" td.x").text( this.x.toExponential(3)  );
 		$("tr#"+this.name+" td.y").text( this.y.toExponential(3)  );
 	};
@@ -49,13 +53,9 @@ function Body(_options){
 				dx = me.x-this.x;	//	adjacent
 				dsquared = Math.pow( dx, 2 ) + Math.pow( dy, 2 );
 				f = -( G * me.mass * this.mass ) / dsquared;
-
 				theta = Math.atan2( dy, dx );	// NOT atan
-
 				fx = fx + ( f * Math.cos( theta ) );
 				fy = fy + ( f * Math.sin( theta ) );
-
-$("#theta").text( theta );
 			}
 		});
 		this.fx = fx;
@@ -68,11 +68,11 @@ $("#theta").text( theta );
 		this.vy = this.vy + ( delta_t * fy / this.mass );
 		$("tr#"+this.name+" td.vx").text( this.vx.toExponential(3)  );
 		$("tr#"+this.name+" td.vy").text( this.vy.toExponential(3)  );
-	};
+	};	//	this.revelocity = function(bodies){
+	this.plot();
 };
 $(function(){
 	$('div#root').append("<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th><th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead><tbody></tbody></table>");
-	$('div#root').append("<p>Theta(rad)&nbsp;<span id='theta'></span></p>");
 	$('div#root').append("<p>Days&nbsp;<span id='days'></span></p>");
 	$('div#root').append("<button id='stop'>Stop</button>");
 	$('div#root').append("<canvas id='myCanvas' width='1000' height='1000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
@@ -83,7 +83,8 @@ $(function(){
 	bodies.push( new Body({
 		ctx: ctx,
 		name: 'Earth',
-		mass: 5.97219e24 //,
+		mass: 5.97219e24,
+		velocity: [0,-12.5]	// m/s		//	need a properly balanced initial condition or the orbit will wander off
 //		position: [1.49598261e11,0],	// m
 //		velocity: [0,29.78e3]	// m/s
 	}) );
@@ -100,13 +101,11 @@ $(function(){
 	});
 
 	var runningid = setInterval(function(){
-//		$.each(bodies,function(){ this.reposition(); })
-//		$.each(bodies,function(){ this.revelocity(bodies); });
-		bodies[1].reposition();
-		bodies[1].revelocity(bodies);
+		$.each(bodies,function(){ this.reposition(); })
+		$.each(bodies,function(){ this.revelocity(bodies); });
 		time = time + delta_t;
 		$("#days").text( time/3600/24 );
-	}, 100);
+	}, 10);
 
 	$('button#stop').click(function(){ clearInterval(runningid); });
 
