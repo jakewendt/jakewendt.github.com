@@ -19,9 +19,23 @@ function Body(_options){
 	this.name = options.name;
 	this.mass = options.mass;
 	this.position = options.position;
+	this.x = this.position[0];
+	this.y = this.position[1];
 	this.velocity = options.velocity;
+	this.vx = this.velocity[0];
+	this.vy = this.velocity[1];
+	this.fx = null;
+	this.fy = null;
 	this.reposition = function(){
-		this.position=[ this.position[0]+(this.velocity[0]*step_size) , this.position[1]+(this.velocity[1]*step_size) ];
+		this.x = this.x+(this.vx*step_size);
+		this.y = this.y+(this.vy*step_size);
+		if( typeof options.ctx == 'object' ){
+			options.ctx.beginPath();
+			options.ctx.arc( 500+(this.x/10000000),500+(this.y/10000000),1,0,2*Math.PI);
+			options.ctx.fill();
+		}
+		$("tr#"+this.name+" td.x").text( this.x );
+		$("tr#"+this.name+" td.y").text( this.y );
 	};
 	this.revelocity = function(bodies){
 		me = this;
@@ -29,59 +43,72 @@ function Body(_options){
 		fy = 0;
 		$.each(bodies,function(){ 
 			if( this.name != me.name ){
-				theta = Math.atan( (me.position[1]-this.position[1]) / (me.position[0]-this.position[0]) );
-				dsquared = Math.pow( (me.position[0]-this.position[0]), 2 ) + Math.pow( (me.position[1]-this.position[1]), 2 );
-				f = ( G * me.mass * this.mass ) / dsquared;
+				dsquared = Math.pow( (me.x-this.x), 2 ) + Math.pow( (me.y-this.y), 2 );
+				f = -( G * me.mass * this.mass ) / dsquared;
+
+// think I'm missing something here.  force is always the same sign.
+
+				theta = Math.tan( (me.y-this.y) / (me.x-this.x) );
 				fx = fx + ( f * Math.cos( theta ) );
 				fy = fy + ( f * Math.sin( theta ) );
+
+$("#dsq").text( dsquared );
 $("#f").text( f );
-$("#fx").text( fx );
-$("#fy").text( fy );
-$("#theta").text( theta );
+//$("#theta").text( theta );
 			}
 		});
+		this.fx = fx;
+		this.fy = fy;
 
-		this.velocity = [ this.velocity[0] + ( fx / me.mass ), this.velocity[1] + ( fy / me.mass ) ];
+		$("tr#"+this.name+" td.fx").text( this.fx );
+		$("tr#"+this.name+" td.fy").text( this.fy );
+
+		this.vx = this.vx + ( step_size * fx / me.mass );
+		this.vy = this.vy + ( step_size * fy / me.mass );
+		$("tr#"+this.name+" td.vx").text( this.vx );
+		$("tr#"+this.name+" td.vy").text( this.vy );
 	};
 };
 $(function(){
+	$('div#root').append("<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th><th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead><tbody></tbody></table>");
+	$('div#root').append("<p id='dsq'></p>");
+	$('div#root').append("<p id='f'></p>");
+//	$('div#root').append("<p id='theta'></p>");
+	$('div#root').append("<button id='step'>Step</button>");
+	$('div#root').append("<button id='stop'>Stop</button>");
+	$('div#root').append("<canvas id='myCanvas' width='1000' height='2000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
+
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+
 //	bodies.push( new Body({ name: 'Sun' }) );
 	bodies.push( new Body({
+		ctx: ctx,
 		name: 'Earth',
 		mass: 5.97219e24 //,
 //		position: [1.49598261e11,0],	// m
 //		velocity: [0,29.78e3]	// m/s
 	}) );
 	bodies.push( new Body({
+		ctx: ctx,
 		name: 'Luna',
 		mass: 0.07342e24,
 		position: [0.384748e9,0],	// m
 		velocity: [0,1023]	// m/s
-	}) );
-	$('div#root').append("<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th>Position (m)</th><th>Velocity (m/s)</th></tr></thead><tbody></tbody></table>");
-	$('div#root').append("<p id='f'></p>");
-	$('div#root').append("<p id='fx'></p>");
-	$('div#root').append("<p id='fy'></p>");
-	$('div#root').append("<p id='theta'></p>");
-	$('div#root').append("<button id='step'>Step</button>");
-	$('div#root').append("<button id='stop'>Stop</button>");
+	})  );
+
 	$.each(bodies,function(){
-		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='position'>"+this.position+"</td><td class='velocity'>"+this.velocity+"</td></tr>");
+		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
 	});
-
-
 
 	var runningid = setInterval(function(){
 		$.each(bodies,function(){ 
 			this.reposition(); 
-			$("tr#"+this.name+" td.position").text( this.position );
 		})
 		$.each(bodies,function(){ 
 			this.revelocity(bodies);
-			$("tr#"+this.name+" td.velocity").text( this.velocity );
 		});
 	}, 10);
-
 
 	$('button#stop').click(function(){ clearInterval(runningid); });
 
