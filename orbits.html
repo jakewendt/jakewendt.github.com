@@ -6,7 +6,9 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 var G = 6.67384e-11;	//	N m^2 / kg^2
-var step_size = 3600;	// seconds
+var time = 0;  // seconds
+var delta_t = 7200;	// seconds
+var scale = 1000000;	//	meters to pixels
 var bodies = [];
 function Body(_options){
 	var options = {
@@ -27,15 +29,15 @@ function Body(_options){
 	this.fx = null;
 	this.fy = null;
 	this.reposition = function(){
-		this.x = this.x+(this.vx*step_size);
-		this.y = this.y+(this.vy*step_size);
+		this.x = this.x+(this.vx*delta_t);
+		this.y = this.y+(this.vy*delta_t);
 		if( typeof options.ctx == 'object' ){
 			options.ctx.beginPath();
-			options.ctx.arc( 500+(this.x/10000000),500+(this.y/10000000),1,0,2*Math.PI);
+			options.ctx.arc( 500+(this.x/scale),500+(-this.y/scale),1,0,2*Math.PI);	// - added to invert y-axis
 			options.ctx.fill();
 		}
-		$("tr#"+this.name+" td.x").text( this.x );
-		$("tr#"+this.name+" td.y").text( this.y );
+		$("tr#"+this.name+" td.x").text( this.x.toExponential(3)  );
+		$("tr#"+this.name+" td.y").text( this.y.toExponential(3)  );
 	};
 	this.revelocity = function(bodies){
 		me = this;
@@ -43,43 +45,39 @@ function Body(_options){
 		fy = 0;
 		$.each(bodies,function(){ 
 			if( this.name != me.name ){
-				dsquared = Math.pow( (me.x-this.x), 2 ) + Math.pow( (me.y-this.y), 2 );
+				dy = me.y-this.y; //	opposite
+				dx = me.x-this.x;	//	adjacent
+				dsquared = Math.pow( dx, 2 ) + Math.pow( dy, 2 );
 				f = -( G * me.mass * this.mass ) / dsquared;
 
-// think I'm missing something here.  force is always the same sign.
+				theta = Math.atan2( dy, dx );	// NOT atan
 
-				theta = Math.tan( (me.y-this.y) / (me.x-this.x) );
 				fx = fx + ( f * Math.cos( theta ) );
 				fy = fy + ( f * Math.sin( theta ) );
 
-$("#dsq").text( dsquared );
-$("#f").text( f );
-//$("#theta").text( theta );
+$("#theta").text( theta );
 			}
 		});
 		this.fx = fx;
 		this.fy = fy;
 
-		$("tr#"+this.name+" td.fx").text( this.fx );
-		$("tr#"+this.name+" td.fy").text( this.fy );
+		$("tr#"+this.name+" td.fx").text( this.fx.toExponential(3)  );
+		$("tr#"+this.name+" td.fy").text( this.fy.toExponential(3)  );
 
-		this.vx = this.vx + ( step_size * fx / me.mass );
-		this.vy = this.vy + ( step_size * fy / me.mass );
-		$("tr#"+this.name+" td.vx").text( this.vx );
-		$("tr#"+this.name+" td.vy").text( this.vy );
+		this.vx = this.vx + ( delta_t * fx / this.mass );
+		this.vy = this.vy + ( delta_t * fy / this.mass );
+		$("tr#"+this.name+" td.vx").text( this.vx.toExponential(3)  );
+		$("tr#"+this.name+" td.vy").text( this.vy.toExponential(3)  );
 	};
 };
 $(function(){
 	$('div#root').append("<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th><th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead><tbody></tbody></table>");
-	$('div#root').append("<p id='dsq'></p>");
-	$('div#root').append("<p id='f'></p>");
-//	$('div#root').append("<p id='theta'></p>");
-	$('div#root').append("<button id='step'>Step</button>");
+	$('div#root').append("<p>Theta(rad)&nbsp;<span id='theta'></span></p>");
+	$('div#root').append("<p>Days&nbsp;<span id='days'></span></p>");
 	$('div#root').append("<button id='stop'>Stop</button>");
-	$('div#root').append("<canvas id='myCanvas' width='1000' height='2000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
+	$('div#root').append("<canvas id='myCanvas' width='1000' height='1000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
 
-	var c=document.getElementById("myCanvas");
-	var ctx=c.getContext("2d");
+	var ctx = document.getElementById("myCanvas").getContext("2d");
 
 //	bodies.push( new Body({ name: 'Sun' }) );
 	bodies.push( new Body({
@@ -102,13 +100,13 @@ $(function(){
 	});
 
 	var runningid = setInterval(function(){
-		$.each(bodies,function(){ 
-			this.reposition(); 
-		})
-		$.each(bodies,function(){ 
-			this.revelocity(bodies);
-		});
-	}, 10);
+//		$.each(bodies,function(){ this.reposition(); })
+//		$.each(bodies,function(){ this.revelocity(bodies); });
+		bodies[1].reposition();
+		bodies[1].revelocity(bodies);
+		time = time + delta_t;
+		$("#days").text( time/3600/24 );
+	}, 100);
 
 	$('button#stop').click(function(){ clearInterval(runningid); });
 
