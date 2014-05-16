@@ -8,10 +8,28 @@
 <script type="text/javascript">
 var G = 6.67384e-11;	//	N m^2 / kg^2
 var time = 0;  // seconds
-var delta_t = 48*3600;	// seconds
-var scale = 400000000;	//	meters to pixels
+var delta_t = 72*3600;	// seconds
+var scale = 6e9;	//	meters to pixels	(2e9) just includes Saturn's orbit on 1500px canvas 6e9 just includes Neptune
 var bodies = [];
 var canvas_size = 1500;
+
+function SolarSystem(_options){
+	var options = {}
+	$.extend( true, options, _options );
+	this.fg = this.foreground = document.getElementById(options.foreground_canvas).getContext("2d");
+	this.bg = this.background = document.getElementById(options.background_canvas).getContext("2d");
+	this.bodies = [];
+	this.plot = function(){
+		this.fg.clearRect(0,0,this.fg.canvas.width,this.fg.canvas.height);
+		// $.each(this.bodies, function(){ this.plot( this.bg ) });
+		// $.each(this.bodies, function(){ this.plot( this.fg ) });
+	};
+	this.step = function(){
+	};
+	this.add_body = function(new_body){
+	};
+};
+
 function Body(_options){
 	var options = {
 		name:     'UnNamed',
@@ -99,11 +117,54 @@ function Body(_options){
 	this.plot();
 };
 $(function(){
-	$('div#root').append("<canvas id='myCanvas' width='"+canvas_size+"' height='"+canvas_size+"' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
 
-	var ctx = document.getElementById("myCanvas").getContext("2d");
+/*
 
-	bodies.push( new Body({ ctx: ctx, name: 'Sun', radius: 6.96342e8  }) );
+	Notes for future futsing about...
+
+	Use multiple canvases?  Keeping "trails" on back canvas, use clearRect rather than 
+	this drawing a bigger dot over the planet to "erase" it.  
+<div style="position: relative;">
+ <canvas id="layer1" width="100" height="100" 
+   style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id="layer2" width="100" height="100" 
+   style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+</div>
+
+	Add more bodies.  Planets, moons, comets, asteroids, trojan asteroids, etc.
+		http://en.wikipedia.org/wiki/3753_Cruithne
+
+	Add a planet at the asteroid belt
+
+	Rather than have a "STOP" button, perhaps a "Pause/Continue" button.
+
+	Real orbit data rather than starting with the averages.
+
+	Some type of "satellite" launch from Earth to Saturn sim.
+
+	Adjustable speed, step_size, 
+
+	Color?
+
+	Make Sun fixed?  No velocity.  No change in position.
+
+	Put javascript in library file so can have multiple simulator html pages.
+
+	Polar coordinates?
+
+*/
+
+	var canvas = document.getElementById("myCanvas");
+	canvas.width = canvas_size;
+	canvas.height = canvas_size;
+	var ctx = canvas.getContext("2d");
+
+	bodies.push( new Body({ 
+		ctx: ctx, 
+		name: 'Sun', 
+		radius: 6.96342e8,
+		velocity: [0,-10]  // m/s  need a properly balanced initial condition or the orbit will wander off
+	}) );
 
 	bodies.push( new Body({
 		ctx: ctx,
@@ -147,6 +208,38 @@ $(function(){
 		position: [2.299391e11,0],	// m
 		velocity: [0,24.077e3]	// m/s
 	}) );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Jupiter',
+		mass: 1.8986e27,	// kg
+		radius: 6.9911e7,	// m
+		position: [7.785472e11,0],	// m
+		velocity: [0,13.07e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Saturn',
+		mass: 5.6846e26,	// kg
+		radius: 5.8232e7,	// m
+		position: [1.43344937e12,0],	// m
+		velocity: [0,9.69e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Uranus',
+		mass: 8.6810e25,	// kg
+		radius: 25362e3,	// m
+		position: [2.876679082e12,0],	// m
+		velocity: [0,6.81e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		ctx: ctx,
+		name: 'Neptune',
+		mass: 1.0243e26,	// kg
+		radius: 24622e3,	// m
+		position: [4.503443661e12,0],	// m
+		velocity: [0,5.43e3]	// m/s
+	}) );
 
 //	bodies.push( new Body({
 //		ctx: ctx,
@@ -167,7 +260,6 @@ $(function(){
 	});
 
 	var runningid = setInterval(function(){
-//		ctx.clearRect(0,0,canvas_size,canvas_size);
 		$.each(bodies,function(){ this.reposition(); })
 		$.each(bodies,function(){ this.revelocity(bodies); });
 		time = time + delta_t;
@@ -181,9 +273,13 @@ $(function(){
 </head>
 <body>
 <div id='root'>
-<table id='bodies'><thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th><th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead><tbody></tbody></table>
+<canvas id='myCanvas' width='1000' height='1000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>
+<table id='bodies'>
+<thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th>
+<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead>
+<tbody></tbody></table>
 <p>Days&nbsp;<span id='days'></span></p>
-<button id='stop'>Stop</button>
+<p><button id='stop'>Stop</button></p>
 </div>
 </body>
 </html>
