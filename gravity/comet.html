@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Solar System Orbits</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script src="gravity.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+
+	var bodies = [];
+	bodies.push( new Body({ 
+		name: 'Sun', 
+		radius: 6.96342e8,
+		velocity: [0,-10]  // m/s  need a properly balanced initial condition or the orbit will wander off
+	}) );
+
+	bodies.push( new Body({
+		name: 'FakeCometNeptune',
+		mass: 1.0243e24,	// kg
+		radius: 24622,	// m
+		position: [-4.4e12,0],	// m
+		velocity: [0,-2500]	// m/s
+	}) );
+
+	var system = new OrbitalSystem({ 
+//		delta_t: 72*3600,	//	default
+		delta_t: 288*3600,
+		bodies: bodies });
+
+	$.each(bodies,function(){
+		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
+	});
+
+	var runningid = setInterval(function(){ system.step(); }, 1);
+
+	$('button#stop').click(function(){ clearInterval(runningid); });
+
+});
+</script>
+</head>
+<body>
+<div id='root'></div>
+<div>
+<table id='bodies'>
+<thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th>
+<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead>
+<tbody></tbody></table>
+<p>Days&nbsp;<span id='days'></span></p>
+<p><button id='stop'>Stop</button></p>
+</div>
+</body>
+</html>
