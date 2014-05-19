@@ -55,8 +55,8 @@ $(function(){
 		name: 'Jupiter',
 		mass: 1.8986e27,	// kg
 		radius: 6.9911e7,	// m
-		position: [7.785472e11,0],	// m
-		velocity: [0,13.07e3]	// m/s
+		position: [-7.785472e11,0],	// m
+		velocity: [0,-13.07e3]	// m/s
 	}) );
 	bodies.push( new Body({
 		name: 'Saturn',
@@ -73,14 +73,31 @@ $(function(){
 		velocity: [0,6.81e3]	// m/s
 	}) );
 	bodies.push( new Body({
+		name: 'FakeCometUranus',
+		mass: 8e23,	// kg
+		radius: 25362,	// m
+		position: [-2.8e12,0],	// m
+		velocity: [0,-5000]	// m/s
+	}) );
+	bodies.push( new Body({
 		name: 'Neptune',
 		mass: 1.0243e26,	// kg
 		radius: 24622e3,	// m
 		position: [4.503443661e12,0],	// m
 		velocity: [0,5.43e3]	// m/s
 	}) );
+	bodies.push( new Body({
+		name: 'FakeCometNeptune',
+		mass: 1.0243e24,	// kg
+		radius: 24622,	// m
+		position: [-4.4e12,0],	// m
+		velocity: [0,-3000]	// m/s
+	}) );
 
-	var system = new OrbitalSystem({ bodies: bodies });
+	var system = new OrbitalSystem({ 
+//		delta_t: 72*3600,	//	default
+		delta_t: 144*3600,
+		bodies: bodies });
 
 	$.each(bodies,function(){
 		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
