@@ -8,30 +8,25 @@
 $(function(){
 
 	var bodies = [];
-	bodies.push( new Body({ 
-		name: 'Sun', 
-		radius: 6.96342e8,
-		velocity: [0,-10]  // m/s  need a properly balanced initial condition or the orbit will wander off
-	}) );
-
 	bodies.push( new Body({
 		name: 'Earth',
 		mass: 5.97219e24,
-		radius: 6.371e6,	// m
-		position: [1.49598261e11,0],	// m
-		velocity: [0,29.78e3]	// m/s
+		radius: 6.371e5	// m			//	e6 makes the earth bigger than the station orbit!
+//		radius: 6.371e6,	// m
+//		position: [1.49598261e11,0],	// m
+//		velocity: [0,29.78e3]	// m/s
 	}) );
 	bodies.push( new Body({
-		name: 'Luna',
-		mass: 7.3477e22,	// kg
-		radius: 1.7371e6,	//	m
-		position: [ 1.49598261e11 + 3.84399e8, 0 ],	// m
-		velocity: [0, 29.78e3 + 1022]	// m/s
+		name: 'SpaceStation',
+		mass: 450e3,	// kg
+		radius: 10,	//	m
+		position: [ 6.9e6, 0 ],	// m
+		velocity: [0, 7.66e3]	// m/s
 	})  );
 
 	var system = new OrbitalSystem({ 
-		scale: 3.5e8,
-		delta_t: 12*3600,
+		scale: 5e4,
+		delta_t: 0.01*3600,
 		bodies: bodies });
 
 	$.each(bodies,function(){

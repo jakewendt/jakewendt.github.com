@@ -256,7 +256,7 @@ $(function(){
 //	})  );
 
 	$.each(bodies,function(){
-		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
+		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass.toExponential(3)+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
 	});
 
 	var runningid = setInterval(function(){
@@ -276,7 +276,7 @@ $(function(){
 <canvas id='myCanvas' width='1000' height='1000' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>
 <table id='bodies'>
 <thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th>
-<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead>
+<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Net Force</th></tr></thead>
 <tbody></tbody></table>
 <p>Days&nbsp;<span id='days'></span></p>
 <p><button id='stop'>Stop</button></p>

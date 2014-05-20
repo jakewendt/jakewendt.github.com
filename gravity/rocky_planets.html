@@ -11,7 +11,7 @@ $(function(){
 	bodies.push( new Body({ 
 		name: 'Sun', 
 		radius: 6.96342e8,
-		velocity: [0,-5]  // m/s  need a properly balanced initial condition or the orbit will wander off
+		velocity: [0,-4]  // m/s  need a properly balanced initial condition or the orbit will wander off
 	}) );
 
 	bodies.push( new Body({
@@ -93,7 +93,7 @@ $(function(){
 <div>
 <table id='bodies'>
 <thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th>
-<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Force</th></tr></thead>
+<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Net Force</th></tr></thead>
 <tbody></tbody></table>
 <p>Days&nbsp;<span id='days'></span></p>
 <p><button id='stop'>Stop</button></p>
