@@ -5,10 +5,11 @@ function OrbitalSystem(_options){
 
 		//	meters to pixels	(2e9) just includes Saturn's orbit on 1500px canvas 6e9 just includes Neptune
 		scale: 6e9,	
+		// I could scale the canvas down instead, but that scales line thickness as well.  Awkward.
 
 		time: 0,
 		delta_t: 72*3600,  // seconds
-		canvas_size: 1500
+		canvas_size: 1000
 	}
 	$.extend( true, options, _options );
 	this.canvas_size = options.canvas_size;
@@ -21,7 +22,7 @@ function OrbitalSystem(_options){
 	$(this.base).append("<canvas id='foreground_canvas' width='"+this.canvas_size+"' height='"+this.canvas_size+"' style='position: absolute; left: 0; top: 0; border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
 	this.fg = document.getElementById('foreground_canvas').getContext("2d");
 	this.bg = document.getElementById('background_canvas').getContext("2d");
-	this.bg.fillStyle = 'rgba(200,200,200,0.1)';
+	this.bg.fillStyle = 'rgba(200,200,200,0.3)';
 
 	// translate context to center of canvas
 	this.bg.translate(this.canvas_size / 2, this.canvas_size / 2);
@@ -70,7 +71,7 @@ function Body(_options){
 	this.fy = null;
 	this.plot = function(ctx,scale,r){
 		if( typeof( r ) == 'undefined' )
-			r =  2+(this.radius/scale)
+			r =  3*(1+(this.radius/scale))
 		else
 			r = 1;
 		if( typeof ctx == 'object' ){

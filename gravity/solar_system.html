@@ -51,6 +51,39 @@ $(function(){
 		position: [2.299391e11,0],	// m
 		velocity: [0,24.077e3]	// m/s
 	}) );
+
+	bodies.push( new Body({
+		name: 'Ceres',
+		mass: 9.43e20,	// kg
+		radius: 476.2e3,	// m
+		position: [413.91e9,0],	// m
+		velocity: [0,17.882e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Pallas',
+		mass: 2.11e20,	// kg
+		radius: 500e3,	// m
+		position: [0,414.7e9],	// m
+		velocity: [-17.65e3,0]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Juno',
+		mass: 2.67e19,	// kg
+		radius: 233e3,	// m
+		position: [-399.725e9,0],	// m
+		velocity: [0,-17.93e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Vesta',
+		mass: 2.59076e20,	// kg
+		radius: 525.4e3,	// m
+		position: [0,-353.268e9],	// m
+		velocity: [19.34e3,0]	// m/s
+	}) );
+
+
+
+
 	bodies.push( new Body({
 		name: 'Jupiter',
 		mass: 1.8986e27,	// kg
@@ -93,14 +126,29 @@ $(function(){
 		position: [-4.4e12,0],	// m
 		velocity: [0,-3000]	// m/s
 	}) );
+	bodies.push( new Body({
+		name: 'Pluto',
+		mass: 1.305e22,	// kg
+		radius: 1184e3,	// m
+		position: [-5.874e12,0],	// m
+		velocity: [0,-4700]	// m/s
+	}) );
+
+	bodies.push( new Body({
+		name: "HalleysComet",		// spaces in names muck things up due to the css selectors
+		mass: 2.2e14,	// kg
+		radius: 15e3,	// m
+		position: [0,-52e11],	// m
+		velocity: [1500,0]	// m/s
+	}) );
 
 	var system = new OrbitalSystem({ 
-//		delta_t: 72*3600,	//	default
-		delta_t: 144*3600,
+		scale: 1.3e10,
+		delta_t: 144*3600, //		72*3600,	//	default
 		bodies: bodies });
 
 	$.each(bodies,function(){
-		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
+		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass.toExponential(3)+"</td><td class='x'>"+this.x.toExponential(3)+"</td><td class='y'>"+this.y.toExponential(3)+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
 	});
 
 	var runningid = setInterval(function(){ system.step(); }, 1);
