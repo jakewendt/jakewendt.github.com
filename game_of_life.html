@@ -25,11 +25,12 @@
 <!--
 	FYI just using the // prefix DOES NOT WORK when the file is local (not from a web server)
 -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script src="http:///ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+//<![CDATA[
 var squares=[];
 var cols=100;
-var rows=50;
+var rows=100;
 var rerender = function(){
 	for( var row=0; row<rows; row++ ) {
 		for( var col=0; col<cols; col++ ) {
@@ -104,13 +105,10 @@ $(function(){
 	rerender();
 	setInterval(step,500);
 });
+//]]>
 </script>
 </head>
 <body>
-<div id='container'>
-<div id='content'>
 <div id='game_board'></div>
-</div><!-- content -->
-</div><!-- container -->
 </body>
 </html>
