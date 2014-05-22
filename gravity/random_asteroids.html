@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Random Asteroid Orbits</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script src="gravity.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+
+	var bodies = [];
+	bodies.push( new Body({ 
+		name: 'Sun', 
+		fixed: true,
+		color: 'gold',
+		radius: 5e9	//6.96342e8
+//		velocity: [0,6]  // m/s  need a properly balanced initial condition or the orbit will wander off
+	}) );
+
+/*
+	bodies.push( new Body({
+		name: 'Mercury',
+		mass: 3.3022e23,
+		radius: 2.4397e6,	//	m
+		position: [5.7909050e10,0],	// m
+		velocity: [0,47.362e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Venus',
+		mass: 4.8676e24,
+		radius: 6.0518e6,	//	m
+		position: [1.08208e11,0],	// m
+		velocity: [0,35.02e3]
+	}) );
+	bodies.push( new Body({
+		name: 'Earth',
+		mass: 5.97219e24,
+		radius: 6.371e6,	// m
+		position: [1.49598261e11,0],	// m
+		velocity: [0,29.78e3]	// m/s
+	}) );
+*/
+	bodies.push( new Body({
+		name: 'Mars',
+		mass: 6.4185e23,	// kg
+		color: '#CC0000',	// kg
+		radius: 3.3895e6,	// m
+		position: [2.299391e11,0],	// m
+		velocity: [0,24.077e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Ceres',
+		mass: 9.43e20,	// kg
+		radius: 476.2e3,	// m
+		position: [413.91e9,0],	// m
+		velocity: [0,17.882e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Pallas',
+		mass: 2.11e20,	// kg
+		radius: 500e3,	// m
+		position: [0,414.7e9],	// m
+		velocity: [-17.65e3,0]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Juno',
+		mass: 2.67e19,	// kg
+		radius: 233e3,	// m
+		position: [-399.725e9,0],	// m
+		velocity: [0,-17.93e3]	// m/s
+	}) );
+	bodies.push( new Body({
+		name: 'Vesta',
+		mass: 2.59076e20,	// kg
+		radius: 525.4e3,	// m
+		position: [0,-353.268e9],	// m
+		velocity: [19.34e3,0]	// m/s
+	}) );
+
+	for(var i=1;i<=50; i++){
+		m = 1e20; 	//	kg
+		r = 2e11 + Math.random() * 5e11;
+		theta = Math.random() * Math.PI * 2;
+		p = polar_to_cartesian( r, theta );
+		G = 6.67384e-11;
+		v_orbital = Math.sqrt( G * 1.9891e30 / r );
+		v = polar_to_cartesian( v_orbital, theta + Math.PI / 2 ),
+
+		bodies.push( new Body({
+			name: 'Random'+i,
+			mass: m,
+			radius: 1e3,	// m
+			position: p,
+			velocity: v
+		}) );
+	}
+
+	bodies.push( new Body({
+		name: 'Jupiter',
+		mass: 1.8986e27,	// kg
+		radius: 4e9,	//6.9911e7,	// m
+		color: '#CCA500',
+		position: [-7.785472e11,0],	// m
+		velocity: [0,-13.07e3]	// m/s
+	}) );
+
+
+	var system = new OrbitalSystem({ 
+		scale: 2e9,
+		delta_t: 72*3600,	//	default
+		bodies: bodies });
+
+	$.each(bodies,function(){
+		$('table#bodies tbody').append("<tr id='"+this.name+"'><td class='name'>"+this.name+"</td><td class='mass'>"+this.mass.toExponential(3)+"</td><td class='x'>"+this.x+"</td><td class='y'>"+this.y+"</td><td class='vx'>"+this.vx+"</td><td class='vy'>"+this.vy+"</td><td class='fx'>"+this.fx+"</td><td class='fy'>"+this.fy+"</td></tr>");
+	});
+
+	var runningid = setInterval(function(){ system.step(); }, 1);
+
+	$('button#stop').click(function(){ clearInterval(runningid); });
+
+});
+</script>
+</head>
+<body>
+<div id='root'></div>
+<div>
+<table id='bodies'>
+<thead><tr><th>Name</th><th>Mass (kg)</th><th colspan='2'>Position (m)</th>
+<th colspan='2'>Velocity (m/s)</th><th colspan='2'>Net Force</th></tr></thead>
+<tbody></tbody></table>
+<p>Days&nbsp;<span id='days'></span></p>
+<p><button id='stop'>Stop</button></p>
+</div>
+</body>
+</html>

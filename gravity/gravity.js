@@ -1,4 +1,14 @@
 
+var cartesian_to_polar = function (x,y){
+	r = Math.sqrt( x*x + y*y );
+	theta = Math.atan2( y, x );
+	return([ r, theta ]);
+}
+var polar_to_cartesian = function (r,theta){
+	x = r * Math.cos( theta );
+	y = r * Math.sin( theta );
+	return([ x, y ]);
+}
 function OrbitalSystem(_options){
 	var options = {
 		base_id: 'root',
@@ -13,6 +23,7 @@ function OrbitalSystem(_options){
 	}
 	$.extend( true, options, _options );
 	this.canvas_size = options.canvas_size;
+	this.fixed = options.fixed;
 	this.delta_t = options.delta_t;
 	this.scale = options.scale;
 	this.time = options.time;
@@ -37,7 +48,12 @@ function OrbitalSystem(_options){
 		this.fg.clearRect(-this.canvas_size/2,-this.canvas_size/2,
 			this.canvas_size,this.canvas_size);
 		$.each(this.bodies, function(){ this.plot( system.bg, system.scale, 1 ) });
-		$.each(this.bodies, function(){ this.plot( system.fg, system.scale ) });
+		$.each(this.bodies, function(){ 
+			system.fg.save();
+			system.fg.fillStyle = this.color;
+			this.plot( system.fg, system.scale ) 
+			system.fg.restore();
+		});
 	};
 	this.step = function(){
 		system = this;
@@ -52,13 +68,17 @@ function OrbitalSystem(_options){
 function Body(_options){
 	var options = {
 		name:     'UnNamed',
+		fixed: false,	//	most move. Set to true for things like Sun when you don't want it to wander.
 		mass:     1.9891e30, //	kg
 		radius: 1,	// m
+		color: '#000000',	// m
 		position: [0,0],	// m
 		velocity: [0,0]		// m/s
 	}
 	$.extend( true, options, _options );
 	this.name = options.name;
+	this.fixed = options.fixed;
+	this.color = options.color;
 	this.mass = options.mass;
 	this.radius = options.radius;	// depending on scale, radius will usually be rounded up to 1 anyway
 	this.position = options.position;
@@ -75,44 +95,51 @@ function Body(_options){
 		else
 			r = 1;
 		if( typeof ctx == 'object' ){
+//			ctx.save();
 			ctx.beginPath();
 			//	arc( x-center, y-center, radius, start_angle, end_angle, counter_clockwise_flag(optional) )
 			ctx.arc( this.x/scale, this.y/scale, r, 0, 2*Math.PI);
+//			ctx.fillStyle(this.color);
 			ctx.fill();
+//			ctx.restore();
 		}
 	};
 	this.reposition = function(delta_t){
-		this.x = this.x+(this.vx*delta_t);
-		this.y = this.y+(this.vy*delta_t);
-		$("tr#"+this.name+" td.x").text( this.x.toExponential(3)  );
-		$("tr#"+this.name+" td.y").text( this.y.toExponential(3)  );
+		if( !this.fixed ){
+			this.x = this.x+(this.vx*delta_t);
+			this.y = this.y+(this.vy*delta_t);
+			$("tr#"+this.name+" td.x").text( this.x.toExponential(3)  );
+			$("tr#"+this.name+" td.y").text( this.y.toExponential(3)  );
+		}
 	};
 	this.revelocity = function(delta_t,bodies){
-		me = this;
-		fx = 0;
-		fy = 0;
-		G = 6.67384e-11;	//	N m^2 / kg^2
-		$.each(bodies,function(){ 
-			if( this.name != me.name ){
-				dy = me.y-this.y; //	opposite
-				dx = me.x-this.x;	//	adjacent
-				dsquared = Math.pow( dx, 2 ) + Math.pow( dy, 2 );
-				f = -( G * me.mass * this.mass ) / dsquared;
-				theta = Math.atan2( dy, dx );	// NOT atan
-				fx = fx + ( f * Math.cos( theta ) );
-				fy = fy + ( f * Math.sin( theta ) );
-			}
-		});
-		this.fx = fx;
-		this.fy = fy;
-
-		$("tr#"+this.name+" td.fx").text( this.fx.toExponential(3)  );
-		$("tr#"+this.name+" td.fy").text( this.fy.toExponential(3)  );
-
-		this.vx = this.vx + ( delta_t * fx / this.mass );
-		this.vy = this.vy + ( delta_t * fy / this.mass );
-		$("tr#"+this.name+" td.vx").text( this.vx.toExponential(3)  );
-		$("tr#"+this.name+" td.vy").text( this.vy.toExponential(3)  );
+		if( !this.fixed ){
+			me = this;
+			fx = 0;
+			fy = 0;
+			G = 6.67384e-11;	//	N m^2 / kg^2
+			$.each(bodies,function(){ 
+				if( this.name != me.name ){
+					dy = me.y-this.y; //	opposite
+					dx = me.x-this.x;	//	adjacent
+					dsquared = Math.pow( dx, 2 ) + Math.pow( dy, 2 );
+					f = -( G * me.mass * this.mass ) / dsquared;
+					theta = Math.atan2( dy, dx );	// NOT atan
+					fx = fx + ( f * Math.cos( theta ) );
+					fy = fy + ( f * Math.sin( theta ) );
+				}
+			});
+			this.fx = fx;
+			this.fy = fy;
+	
+			$("tr#"+this.name+" td.fx").text( this.fx.toExponential(3)  );
+			$("tr#"+this.name+" td.fy").text( this.fy.toExponential(3)  );
+	
+			this.vx = this.vx + ( delta_t * fx / this.mass );
+			this.vy = this.vy + ( delta_t * fy / this.mass );
+			$("tr#"+this.name+" td.vx").text( this.vx.toExponential(3)  );
+			$("tr#"+this.name+" td.vy").text( this.vy.toExponential(3)  );
+		}
 	};	//	this.revelocity = function(bodies){
 };
 
