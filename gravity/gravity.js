@@ -23,30 +23,98 @@ function OrbitalSystem(_options){
 	}
 	$.extend( true, options, _options );
 	this.canvas_size = options.canvas_size;
-	this.fixed = options.fixed;
+//	this.fixed = options.fixed;
 	this.delta_t = options.delta_t;
 	this.scale = options.scale;
 	this.time = options.time;
-	this.base = document.getElementById(options.base_id);
-	$(this.base).css({'position':'relative','width':this.canvas_size,'height':this.canvas_size});
-	$(this.base).append("<canvas id='background_canvas' width='"+this.canvas_size+"' height='"+this.canvas_size+"' style='position: absolute; left: 0; top: 0; border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
-	$(this.base).append("<canvas id='foreground_canvas' width='"+this.canvas_size+"' height='"+this.canvas_size+"' style='position: absolute; left: 0; top: 0; border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
+	var base = document.getElementById(options.base_id);
+	$(base).css({'position':'relative','width':this.canvas_size,'height':this.canvas_size});
+	$(base).append("<canvas id='background_canvas' width='"+this.canvas_size+"' height='"+this.canvas_size+"' style='position: absolute; left: 0; top: 0; border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
+	$(base).append("<canvas id='foreground_canvas' width='"+this.canvas_size+"' height='"+this.canvas_size+"' style='position: absolute; left: 0; top: 0; border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>");
 	this.fg = document.getElementById('foreground_canvas').getContext("2d");
 	this.bg = document.getElementById('background_canvas').getContext("2d");
-	this.bg.fillStyle = 'rgba(200,200,200,0.3)';
+	this.bg.fillStyle = 'rgba(200,200,200,0.2)';
+
+
+// using "this" during development
+//	this.bufferCanvas = document.createElement('canvas');
+//	this.bufferCanvas.width = this.canvas_size;
+//	this.bufferCanvas.height = this.canvas_size;
+//	this.bufferContext = this.bufferCanvas.getContext("2d");
+	
 
 	// translate context to center of canvas
 	this.bg.translate(this.canvas_size / 2, this.canvas_size / 2);
 	this.fg.translate(this.canvas_size / 2, this.canvas_size / 2);
+//	this.bufferContext.translate(this.canvas_size / 2, this.canvas_size / 2);
 
 	// flip context vertically
 	this.bg.scale(1,-1);
 	this.fg.scale(1,-1);
+//	this.bufferContext.scale(1,-1);
 
 	this.bodies = options.bodies;
 	this.plot = function(){
 		this.fg.clearRect(-this.canvas_size/2,-this.canvas_size/2,
 			this.canvas_size,this.canvas_size);
+//		this.bg.save();
+
+		// Use the identity matrix while clearing the canvas
+//		this.bg.setTransform(1, 0, 0, 1, 0, 0);
+//		this.bg.beginPath();
+
+//		this.bg.globalCompositeOperation="lighter";
+//		this.bg.fillStyle="rgba(255,255,255,0.03)";	// 0.01 works for a bit then poof! like a lit fuse
+//		this.bg.globalCompositeOperation="destination-out";
+//		this.bg.fillStyle="rgba(255,255,255,0.01)";		// 0.02 works, but 0.01 does nothing.  Too small??
+
+//		this.bg.fillRect(0,0,this.bg.canvas.width, this.bg.canvas.height);
+//		this.bg.fill();
+//		this.bg.restore();
+
+
+/* from http://rectangleworld.com/demos/ParticlesFading/ParticlesFade_AlphaSubtract.html */
+/*
+
+		var lastImage = context.getImageData(0,0,theCanvas.width,theCanvas.height);
+		var i;
+		var pixelData = lastImage.data;
+		var len=pixelData.length;
+		for (i=3; i<len; i += 4) {
+			//change alpha
+			pixelData[i] -= 3;
+		}
+		context.putImageData(lastImage,0,0);
+*/
+/*	Works, but really slow. */
+/*
+		var lastImage = this.bg.getImageData(0,0,this.bg.canvas.width,this.bg.canvas.height);
+		var i;
+		var pixelData = lastImage.data;
+		var len=pixelData.length;
+		for (i=3; i<len; i += 4) {
+			//change alpha
+			pixelData[i] -= 1;
+		}
+		this.bg.putImageData(lastImage,0,0);
+*/
+
+
+/*	Works, but really slow. */
+/*	doesn't leave very long trails either */
+/*	if really want could do this every nth time instead? */
+/*
+		this.bufferContext.clearRect(-this.bufferContext.canvas.width/2, -this.bufferContext.canvas.height/2,
+			this.bufferContext.canvas.width, this.bufferContext.canvas.height);
+		this.bufferContext.drawImage(this.bg.canvas,-500,-500);
+		this.bg.clearRect( -this.bg.canvas.width/2, -this.bg.canvas.height/2,
+			this.bg.canvas.width, this.bg.canvas.height);
+		this.bg.globalAlpha = 0.95;
+		this.bg.drawImage(this.bufferCanvas,-500,-500);
+		this.bg.globalAlpha = 1;
+*/
+
+
 		$.each(this.bodies, function(){ this.plot( system.bg, system.scale, 1 ) });
 		$.each(this.bodies, function(){ 
 			system.fg.save();
@@ -77,7 +145,7 @@ function Body(_options){
 	}
 	$.extend( true, options, _options );
 	this.name = options.name;
-	this.fixed = options.fixed;
+	var fixed = options.fixed;
 	this.color = options.color;
 	this.mass = options.mass;
 	this.radius = options.radius;	// depending on scale, radius will usually be rounded up to 1 anyway
@@ -105,7 +173,7 @@ function Body(_options){
 		}
 	};
 	this.reposition = function(delta_t){
-		if( !this.fixed ){
+		if( !fixed ){
 			this.x = this.x+(this.vx*delta_t);
 			this.y = this.y+(this.vy*delta_t);
 			$("tr#"+this.name+" td.x").text( this.x.toExponential(3)  );
@@ -113,7 +181,7 @@ function Body(_options){
 		}
 	};
 	this.revelocity = function(delta_t,bodies){
-		if( !this.fixed ){
+		if( !fixed ){
 			me = this;
 			fx = 0;
 			fy = 0;
