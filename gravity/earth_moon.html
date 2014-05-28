@@ -11,8 +11,8 @@ $(function(){
 	var bodies = [];
 	bodies.push( new Body({ 
 		name: 'Sun', 
-		radius: 6.96342e8,
-		velocity: [0,-10]  // m/s  need a properly balanced initial condition or the orbit will wander off
+		fixed: true,
+		radius: 6.96342e8
 	}) );
 
 	bodies.push( new Body({
