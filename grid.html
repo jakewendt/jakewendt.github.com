@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Cube</title>
+<style>
+div#cube {
+	margin: 0 auto;
+}
+div#cube table {
+	margin: 0 auto;
+}
+div#cube table tbody tr td {
+	border:1px solid black;
+	width: 100px;
+	height: 100px;
+	text-align:center;
+	font-size:28px;
+}
+div#cube table tbody tr:first-child td,
+div#cube table tbody tr td:first-child,
+div#cube table tbody tr td:last-child,
+div#cube table tbody tr:last-child td {
+	background-color: #EEE;
+}
+div#cube table tbody tr:first-child td:first-child,
+div#cube table tbody tr:first-child td:last-child,
+div#cube table tbody tr:last-child td:first-child,
+div#cube table tbody tr:last-child td:last-child {
+//	border: 0px;
+	visibility: hidden;
+}
+div#cube p {
+	text-align: center;
+}
+div#cube p button {
+	font-size: 40px;
+}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+
+/*
+var cells = [
+	['a1','a2','a3','a4','a5'],
+	['b1','b2','b3','b4','b5'],
+	['c1','c2','c3','c4','c5'],
+	['d1','d2','d3','d4','d5'],
+	['e1','e2','e3','e4','e5']
+];
+var cells = [
+	['red','red','red','red','red'],
+	['orange','orange','orange','orange','orange'],
+	['yellow','yellow','yellow','yellow','yellow'],
+	['green','green','green','green','green'],
+	['blue','blue','blue','blue','blue']
+];
+*/
+
+/* cells MUST BE SQUARE, FOR THE MOMENT! */
+var cells = [
+	['red','red','red'],
+	['yellow','yellow','yellow'],
+	['blue','blue','blue']
+];
+var size=cells.length;
+
+var color = function(){
+	for( var y=1; y<=size; y++ ) {
+		for( var x=1; x<=size; x++ ) {
+			$("div#cube table tbody tr td.row"+y+".col"+x).css( 'background-color', cells[y-1][x-1] );
+		}
+	}
+}
+var rotate_row_right = function(row){
+	cells[row].unshift( cells[row].pop() );
+	color();
+};
+var rotate_row_left = function(row){
+	cells[row].push( cells[row].shift() );
+	color();
+};
+var rotate_column_up = function(column){
+	tmp=cells[0][column];
+	for( var c=0; c<(size-1); c++){
+		cells[c][column]=cells[c+1][column];
+	}
+	cells[size-1][column]=tmp
+	color();
+};
+var rotate_column_down = function(column){
+	tmp=cells[size-1][column];
+	for( var c=size-1; c>0; c--){
+		cells[c][column]=cells[c-1][column];
+	}
+	cells[0][column]=tmp
+	color();
+};
+var scramble = function(){
+	for( var i=0; i<20; i++ ){
+		f=parseInt(Math.random()*4);
+		s=parseInt(Math.random()*size);
+		switch (f) {
+			case 0:
+				rotate_row_right(s);
+				break;
+			case 1:
+				rotate_row_left(s);
+				break;
+			case 2:
+				rotate_column_up(s);
+				break;
+			case 3:
+				rotate_column_down(s);
+				break;
+		}
+	}
+}
+
+$(function(){
+	$('div#cube').append("<table><tbody></tbody></table>");
+	for( var y=0; y<(size+2); y++ ) {
+		s="<tr class='row"+y+"'>";
+		for( var x=0; x<(size+2); x++ ) {
+			s+="<td class='row"+y+" col"+x+"'>&nbsp;</td>";
+		}
+		s+="</tr>";
+		$('div#cube table tbody').append(s);
+		color();
+	}
+	s="<p><button id='scramble'>Scramble</button></p>";
+	$('div#cube').append(s);
+	$("div#cube button#scramble").click( scramble );
+
+	for( var y=0; y<(size+2); y++ ) {
+		for( var x=0; x<(size+2); x++ ) {
+			if( y==0 && x>0 && x<(size+1) ){
+				$("div#cube table tbody tr td.row"+y+".col"+x).text( "^" );
+				$("div#cube table tbody tr td.row"+y+".col"+x).click({ row: y, column: x }, function(e){
+					rotate_column_up( e.data.column - 1 );
+				});
+			} else if( y==(size+1) && x>0 && x<(size+1) ){
+				$("div#cube table tbody tr td.row"+y+".col"+x).text( "v" );
+				$("div#cube table tbody tr td.row"+y+".col"+x).click({ row: y, column: x }, function(e){
+					rotate_column_down( e.data.column - 1 );
+				});
+			} else if( x==0 && y>0 && y<(size+1) ){
+				$("div#cube table tbody tr td.row"+y+".col"+x).text( "<" );
+				$("div#cube table tbody tr td.row"+y+".col"+x).click({ row: y, column: x }, function(e){
+					rotate_row_left( e.data.row - 1 );
+				});
+			} else if( x==(size+1) && y>0 && y<(size+1) ){
+				$("div#cube table tbody tr td.row"+y+".col"+x).text( ">" );
+				$("div#cube table tbody tr td.row"+y+".col"+x).click({ row: y, column: x }, function(e){
+					rotate_row_right( e.data.row - 1 );
+				});
+			}
+		}
+	}
+});
+
+//]]>
+</script>
+</head>
+<body>
+<div id='cube'></div>
+</body>
+</html>
