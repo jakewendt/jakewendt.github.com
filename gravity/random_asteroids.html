@@ -82,7 +82,11 @@ $(function(){
 		theta = Math.random() * Math.PI * 2;
 		p = polar_to_cartesian( r, theta );
 		G = 6.67384e-11;
-		v_orbital = Math.sqrt( G * 1.9891e30 / r );
+//	funk it up a bit by adding a +/- 10%
+//		v_orbital = (( 0.2 * Math.random() ) + 0.9 ) * Math.sqrt( G * 1.9891e30 / r );	
+//	50% is too much
+		v_orbital = (( 0.4 * Math.random() ) + 0.8 ) * Math.sqrt( G * 1.9891e30 / r );	
+//		v_orbital = Math.sqrt( G * 1.9891e30 / r );
 		v = polar_to_cartesian( v_orbital, theta + Math.PI / 2 ),
 
 		bodies.push( new Body({
