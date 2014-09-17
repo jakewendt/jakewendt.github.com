@@ -22,6 +22,7 @@ $(function(){
 		name: 'Sun1', 
 		radius: 3e8,
 		mass:     1e30,
+		color: 'gold',
 		position: [3e9,0],	// m
 		velocity: [0,9e4]  // m/s
 	}) );
@@ -29,6 +30,7 @@ $(function(){
 		name: 'Sun2', 
 		radius: 3e8,
 		mass:     1e30,
+		color: 'gold',
 		position: [-3e9,0],	// m
 		velocity: [0,-9e4]  // m/s
 	}) );
@@ -50,6 +52,7 @@ $(function(){
 	}) );
 	bodies.push( new Body({
 		name: 'Earth',
+		color: 'blue',
 		mass: 5.97219e24,
 		radius: 6.371e6,	// m
 		position: [1.49598261e11,0],	// m
