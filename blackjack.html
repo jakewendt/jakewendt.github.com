@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Blackjack</title>
+<!--	now included
+<link href="css/blackjack.css" media="screen" rel="stylesheet" type="text/css" />
+-->
+<!--
+<script src="js/jquery.js" type="text/javascript"></script>
+-->
+<!-- jrails includes enable and disable functions 						for what-->
+<!--
+<script src="js/jrails.js" type="text/javascript"></script>
+-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+
+<script src="js/deck.js" type="text/javascript"></script>
+<script src="js/blackjack.js" type="text/javascript"></script>
+<style>
+/* override defaults */
+
+div#background,
+div#container {
+	background-color: darkgreen;
+}
+/* can be .rightbar rather than .topbar */
+.rightbar {
+	background-color: white;
+}
+
+/* blackjack stuff */
+div.side {
+	padding: 20px;
+}
+div#dealer {
+	border-bottom: 3px solid yellow;
+	height: 300px;
+	padding-bottom: 0px;
+}
+div#player {
+	margin-top: 10px;
+	border-top: 3px solid yellow;
+	height: 250px;
+}
+p {
+	clear:both;
+	color: yellow;
+	text-align: center;
+}
+
+div#chips,
+div#deck {
+	float:left;
+}
+div#controls,
+div#info {
+	float:right;
+	border-color: yellow;
+}
+
+div.card_holder {
+	border: 3px solid transparent;
+	height: 226px;	/* 215 + 2*.card padding */
+}
+div.hand {
+	border-color: yellow;
+	margin-left: 200px;
+	margin-right: 200px;
+}
+div.hand > div.card {
+	width:40px;	/* creates the overlapping cards */
+}
+
+/* .card isn't just for cards anymore */
+.card {
+	padding: 6px;
+	width: 150px;
+	height: 215px;
+	float:left;
+	line-height: 215px;
+	color:yellow;
+	font-size:30pt;
+	text-align:center;
+}
+div.score.card {
+	float:right;
+	width:auto;
+}
+
+div#controls button {
+	font-size: 12pt;
+	width: 100%;
+	margin-bottom: 8px;
+}
+div#info span {
+	font-size: 12pt;
+}
+
+.card_holder span.label {
+	text-align:left;
+}
+.card_holder input,
+.card_holder span {
+	font-size: 20pt;
+	line-height: 20pt;
+	display:block;
+	clear:left;
+}
+#wager {
+	text-align:right;
+}
+
+/*
+.lightbox {
+	z-index:100;
+	position:fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	background-color:gray;
+}
+.lightbox span {
+	line-height:226px;
+	color:yellow;
+	font-weight:bold;
+	text-align: center;
+	vertical-align:middle;
+	clear:none;
+}
+*/
+/*
+	height:100%;
+	width:100%;
+	clear:none;
+	font-size:36pt;
+	line-height:226px;
+	vertical-align:middle;
+*/
+</style>
+</head>
+<body>
+<div id='container'>
+<div id='content'>
+<div id='blackjack_board'></div>
+</div><!-- content -->
+</div><!-- container -->
+</body>
+</html>
