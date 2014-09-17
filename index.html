@@ -5,6 +5,7 @@
 body {
 	width: 800px;
 	margin: 100px auto;
+	font-family: georgia;
 }
 h1 {
 	text-align: center;
@@ -19,9 +20,25 @@ p {
 p a {
 	padding-right: 20px;
 }
+div#footer {
+	background-color:silver;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 20px;
+	font-size: 30px;
+	text-align: center;
+}
+div#footer a {
+	padding: 10px;
+	color:black;
+	text-decoration:none;
+}
 </style>
 </head>
 <body>
+<div id='main'>
 
 <h1>i'm back, baby!</h1>
 
@@ -39,5 +56,13 @@ p a {
 <a href='gravity/solar_binary.html'>Or the rocky planets and a binary sun?</a>
 <a href='gravity/random_asteroids.html'>Or 50 random asteroids between Mars and Jupiter?</a></p>
 
+</div><!-- id='main' -->
+<div id='footer'>
+<a>who am i?</a>
+<a href='https://www.linkedin.com/in/jakewendt'>linked in</a>
+<a href='https://github.com/jakewendt'>github</a>
+<a href='http://www.beknown.com/jakewendt'>beknown</a>
+<a href='mailto:footer_email_address_yes_I_am_real@jakewendt.com'>email</a>
+</div><!-- id='footer' -->
 </body>
 </html>
