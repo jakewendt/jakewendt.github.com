@@ -7,6 +7,10 @@
 div#mine_sweeper {
 	margin: 0 auto;
 }
+p {
+	clear:both; 
+	text-align:center;
+}
 p#counters {
 	text-align: center;
 }
@@ -63,11 +67,26 @@ form#new_mine_sweeper input {
 <script type="text/javascript">
 //<![CDATA[
 $(function(){
+
+	//	http://www.developerdrive.com/2013/08/turning-the-querystring-into-a-json-object-using-javascript/
+	var pairs = location.search.slice(1).split('&');
+	var result = {};
+	pairs.forEach(function(pair) {
+		pair = pair.split('=');
+		result[pair[0]] = decodeURIComponent(pair[1] || '');
+	});
+
+	var w = parseInt( (result['w'] || 20), 10);
+	var h = parseInt( (result['h'] || 15), 10);
+	var d = parseInt( (result['d'] || 10), 10);
+
+/*
 	if (typeof(w) == 'undefined') w = 20;
 	if (typeof(h) == 'undefined') h = 15;
 	if (typeof(d) == 'undefined') d = 10;
+*/
 
-	m = new MineSweeperBoard({
+	var m = new MineSweeperBoard({
 		height: h,
 		width:  w,
 		mines:  parseInt((w*h*d)/100, 10)
@@ -250,6 +269,44 @@ function MineSweeperBoard(options_) {
 </head>
 <body>
 <div id='mine_sweeper'></div>
+<div>
+<p>Squares:<span id='squares_count'></span></p>
+<p>Mines:<span id='mines_count'></span></p>
+<p>Safe:<span id='safe_count'></span></p>
+<p>Cleared:<span id='cleared_count'></span></p>
+</div>
 <p style='clear:both; text-align:center;'>Left click to clear.  Right click to flag.</p>
+
+<form>
+<p><label for='w'>Width (column count)</label>
+<select name='w'>
+  <option>5</option>
+  <option>10</option>
+  <option>15</option>
+  <option selected='selected'>20</option>
+  <option>25</option>
+</select></p>
+<p><label for='h'>Height (row count)</label>
+<select name='h'>
+  <option>5</option>
+  <option>10</option>
+  <option selected='selected'>15</option>
+  <option>20</option>
+  <option>25</option>
+  <option>30</option>
+  <option>35</option>
+  <option>40</option>
+  <option>45</option>
+  <option>50</option>
+</select></p>
+<p><label for='d'>Difficulty (mine density)</label>
+<select name='d'>
+  <option value='5'>Easy</option>
+  <option value='10' selected='selected'>Medium</option>
+  <option value='20'>Hard</option>
+</select></p>
+<p><input type='submit' value='Resize and Restart'/></form></p>
+
+
 </body>
 </html>
