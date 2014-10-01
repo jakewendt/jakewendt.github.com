@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Comet Orbit</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<style>
+body{
+	position:absolute;
+	background-color:red;
+	margin:0px auto;
+	top: 20px;
+	left: 20px;
+	bottom: 20px;
+	right: 20px;
+	border:1px solid black;
+}
+#ball {
+	font-size:24px;
+	font-weight:bold;
+	position:relative;
+}
+</style>
+<script type="text/javascript">
+//<![CDATA[
+var ball = {
+	x: 0,
+	y: 10,
+	vx: 0,
+	vy: 0,
+	ax: 0,
+	ay: 0.1
+}
+var reposition_ball = function(){
+	var ball_x = parseInt($('#ball').css('left'),10);
+	var ball_y = parseInt($('#ball').css('top'),10);
+	var screen_right  = parseInt($('body').width(),10)  - $('#ball').width();
+	var screen_bottom = parseInt($('body').height(),10) - $('#ball').height();
+
+	ball.x = ball.x + ball.vx;
+	ball.y = ball.y + ball.vy;
+	ball.vx = ball.vx + ball.ax;
+	ball.vy = ball.vy + ball.ay;
+	if(( ( ball_x < 0 ) && ( ball.vx < 0 ) ) ||
+		 ( ( ball_x > screen_right ) && ball.vx > 0 ) ){
+//		ball.vx = -ball.vx;
+		ball.vx = -0.9 * ball.vx;	// with some energy loss
+	}
+	if(( ( ball_y < 0 ) && ( ball.vy < 0 ) ) ||
+		 ( ( ball_y > screen_bottom ) && ball.vy > 0 ) ){
+//		ball.vy = -ball.vy;
+		ball.vy = -0.9 * ball.vy;	// with some energy loss
+	}
+	if( ball_x < 0 ) ball.x = 0;
+	if( ball_y < 0 ) ball.y = 0;
+	if( ball_x > screen_right )  ball.x = screen_right;
+	if( ball_y > screen_bottom ) ball.y = screen_bottom;
+
+	$('#ball').css( 'top',ball.y);
+	$('#ball').css('left',ball.x);
+}
+$(function(){
+	ball.vx = Math.random() * 10;
+
+	setInterval(reposition_ball,10);
+
+});
+//]]>
+</script>
+</head>
+<body>
+<span id='ball'>O</span>
+</body>
+</html>
