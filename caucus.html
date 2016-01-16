@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Caucus Calculator</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<style>
+body{
+	margin:0px auto;
+	width: 800px;
+}
+div#container {
+	text-align: center;
+	border: 1px solid black;
+}
+</style>
+<script type="text/javascript">
+//<![CDATA[
+
+var attendees = 0;
+var candidates = 0;
+var viability = 0;
+var viability_portion = 1;
+
+var count_candidates = function() {
+	candidates = $('.candidate').length;
+	$('#candidate_count').html( candidates );
+}
+
+var remove_candidate = function(me){
+	$(me).parent().parent().remove();
+	count_candidates();
+}
+
+$(function(){
+
+	$("button#add_candidate").click( function(){ 
+		var count=parseInt(1 + ( Math.pow( Math.random(), 2 ) ) * 100);
+		s="<div class='candidate'>"
+		s+="<p>"
+		s+="Name: <input type='text' size='40' autocomplete='off' />&nbsp;&nbsp;"
+		s+="Group Count: <input class='group_count' type='text' size='10' autocomplete='off' value='"+count+"' />&nbsp;&nbsp;"
+		s+="Delegates: <input class='delegates' type='text' size='10' autocomplete='off' />&nbsp;&nbsp;"
+		s+="<a class='candidate_delete' href='javascript:void(0);' onclick='remove_candidate(this);' >Delete</a>"
+		s+="</p>"
+		s+="</div>"
+		$('div#candidates').append(s);
+		count_candidates();
+	} );
+
+	$("button#calculate").click( function(){ 
+		attendees = 0;
+		$.each($('.candidate'), function(){ 
+			attendees += parseInt( $(this).find('.group_count').val() );
+		} )
+		$('#attendees').html( attendees );
+		$.each($('.candidate'), function(){ 
+			var group_count = parseInt( $(this).find('.group_count').val() );
+			$(this).find('.delegates').val( Math.round( $('#delegates').val() * group_count / attendees ) );
+		} )
+
+		switch (candidates) {
+			case 0:
+				alert("Sorry, but seems that no one is home.")
+				viability_portion = "Sorry, but no one is here.";
+				break;
+			case 1:
+				viability_portion = "Majority rule.";
+				break;
+			case 2:
+				viability_portion = "1/4";
+				viability = attendees / 4;
+				break;
+			case 3:
+				viability_portion = "1/6";
+				viability = attendees / 6;
+				break;
+			default:
+				viability_portion = "3/20";
+				viability = 3 * attendees / 20;
+				break;
+		}
+		$('#viability_portion').html( viability_portion );
+		$('#viability').html( viability );
+		viability = Math.ceil( viability );
+		$('#viability').append( "&nbsp;:&nbsp;" );
+		$('#viability').append( viability );
+
+	} );
+
+	$("button#add_candidate").click();
+	$("button#add_candidate").click();
+	$("button#add_candidate").click();
+	$("button#add_candidate").click();
+	$("button#add_candidate").click();
+
+});
+//]]>
+</script>
+</head>
+<body>
+<div id='container'>
+<h1>Caucus Calculator</h1>
+
+<p><label for='delegates'>Delegates:</label>
+<input id='delegates' type='text' size='10' autocomplete="off" value='34' /></p>
+
+<p>Total Attendees: <span id='attendees'>0</span></p>
+<p>Viability Portion: <span id='viability_portion'>0</span></p>
+<p>Viability: <span id='viability'>0</span></p>
+<p>Candidate Count: <span id='candidate_count'>0</span></p>
+
+<div id='candidates'></div>
+
+<p>
+<button id='add_candidate'>Add Candidate</button>
+<button id='calculate'>Calculate</button>
+</p>
+
+</div>
+</body>
+</html>
