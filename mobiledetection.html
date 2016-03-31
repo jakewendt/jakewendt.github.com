@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>Detecting Mobiles</title>
+<style>
+body {
+	background-color: #003366;
+	width: 100%;
+	padding: 0;
+	margin: 100px auto;
+}
+#container {
+	text-align:center;
+}
+* {
+	font-family: Calibri;
+	color: white;
+}
+#container {
+	font-size: 24pt;
+}
+#container p {
+	display:none;
+}
+
+/* from view-source:http://www.unr.edu/bundles/css?v=38zvKL_CpfxYAhfhGRkTF2ZhSeGgBMI4pq2PLwE5nsI1 */
+/* My laptop shows, standard, screen and large. */
+/* screen	= Used for computer screens, tablets, smart-phones etc. */
+/* Screen is basically everything but print and screen readers. */
+/* http://www.w3schools.com/cssref/css3_pr_mediaquery.asp */
+/* 
+@media not|only mediatype and (media feature) {
+    CSS-Code;
+}
+You can also have different stylesheets for different media:
+
+<link rel="stylesheet" media="mediatype and|not|only (media feature)" href="mystylesheet.css">
+*/
+
+/* Not sure that the "only" makes any difference here. */
+/* And, given the content and purpose of this page, "screen" is irrelevant as well. */
+
+/* Non-mobile screens */
+@media (min-width: 768px) {
+	#container p.standard {
+		display:block;
+	}
+}
+/* screens */
+@media only screen {
+	#container p.screen {
+		display:block;
+	}
+}
+/* Small screens */
+@media only screen and (max-width: 767px) {
+	#container p.small {
+		display:block;
+	}
+}
+/* Medium screens */
+@media only screen and (max-width: 1205px) and (min-width: 768px) {
+	#container p.medium {
+		display:block;
+	}
+}
+/* Large screens */
+@media only screen and (max-width: 1440px) and (min-width: 1206px) {
+	#container p.large {
+		display:block;
+	}
+}
+/* Very large screens */
+@media only screen and (min-width: 1441px) {
+	#container p.verylarge {
+		display:block;
+	}
+}
+</style>
+</head>
+<body>
+<div id='container'>
+Just Checking
+<p class='standard'>Standard</p>
+<p class='screen'>Screen</p>
+<p class='small'>Small</p>
+<p class='medium'>Medium</p>
+<p class='large'>Large</p>
+<p class='verylarge'>VeryLarge</p>
+</div><!-- id='container' -->
+</body>
+</html>
