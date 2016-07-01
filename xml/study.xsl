@@ -6,7 +6,7 @@
 <h2>Questions</h2>
 <table border="1"><thead><tr bgcolor="#9acd32">
 <th style="text-align:left">Prompt</th>
-</tr></thead></tbody>
+</tr></thead><tbody>
 <xsl:for-each select="study/questions/question">
 <tr>
 <td><xsl:value-of select="prompt"/></td>
