@@ -17,7 +17,7 @@
 		<td><xsl:value-of select="prompt"/></td>
 	</tr>
 	<xsl:for-each select="./option">
-		<xsl:sort select="ordering">
+		<xsl:sort select="ordering"/>
 		<tr>
 			<td></td>
 			<td></td>
