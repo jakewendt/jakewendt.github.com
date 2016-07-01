@@ -19,8 +19,8 @@
 <xsl:if test="option">
 <tr>
 <xsl:for-each select="option">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&amp;nbsp;</td>
+<td>&amp;nbsp;</td>
 <td><xsl:value-of select="@name"/></td>
 </xsl:for-each>
 </tr>
