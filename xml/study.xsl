@@ -21,7 +21,7 @@
 		<tr>
 			<td></td>
 			<td></td>
-			<td><xsl:value-of select="@ordering"/>:<xsl:value-of select="@value"/>:<xsl:value-of select="@name"/></td>
+			<td><xsl:value-of select="@ordering"/> - <xsl:value-of select="@value"/> - <xsl:value-of select="@name"/></td>
 		</tr>
 	</xsl:for-each><!-- xsl:for-each select="./option" -->
 </xsl:for-each><!-- xsl:for-each select="/study/questions/question" -->
