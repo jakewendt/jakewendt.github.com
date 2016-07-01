@@ -6,23 +6,24 @@
 
 <h2>Questions</h2>
 <table border="1"><thead><tr bgcolor="#9acd32">
-<th style="text-align:left">ID</th>
-<th style="text-align:left">Title</th>
-<th style="text-align:left">Prompt</th>
+	<th style="text-align:left">ID</th>
+	<th style="text-align:left">Title</th>
+	<th style="text-align:left">Prompt</th>
 </tr></thead><tbody>
 <xsl:for-each select="/study/questions/question">
-<tr>
-<td><xsl:value-of select="@id"/></td>
-<td><xsl:value-of select="@title"/></td>
-<td><xsl:value-of select="prompt"/></td>
-</tr>
-<xsl:for-each select="./option">
-<tr>
-<td></td>
-<td></td>
-<td><xsl:value-of select="@name"/></td>
-</tr>
-</xsl:for-each><!-- xsl:for-each select="./option" -->
+	<tr>
+		<td><xsl:value-of select="@id"/></td>
+		<td><xsl:value-of select="@title"/></td>
+		<td><xsl:value-of select="prompt"/></td>
+	</tr>
+	<xsl:for-each select="./option">
+		<xsl:sort select="ordering">
+		<tr>
+			<td></td>
+			<td></td>
+			<td><xsl:value-of select="@ordering"/>:<xsl:value-of select="@value"/>:<xsl:value-of select="@name"/></td>
+		</tr>
+	</xsl:for-each><!-- xsl:for-each select="./option" -->
 </xsl:for-each><!-- xsl:for-each select="/study/questions/question" -->
 </tbody></table>
 
