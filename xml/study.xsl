@@ -16,6 +16,15 @@
 <td><xsl:value-of select="@title"/></td>
 <td><xsl:value-of select="prompt"/></td>
 </tr>
+<xsl:if test="option">
+<tr>
+<xsl:for-each select="option">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><xsl:value-of select="@name"/></td>
+</xsl:for-each>
+</tr>
+</xsl:if>
 </xsl:for-each>
 </tbody></table>
 
