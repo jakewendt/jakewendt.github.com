@@ -4,10 +4,14 @@
 
 <h2>Questions</h2>
 <table border="1"><thead><tr bgcolor="#9acd32">
+<th style="text-align:left">ID</th>
+<th style="text-align:left">Title</th>
 <th style="text-align:left">Prompt</th>
 </tr></thead><tbody>
 <xsl:for-each select="study/questions/question">
 <tr>
+<td><xsl:value-of select="id"/></td>
+<td><xsl:value-of select="title"/></td>
 <td><xsl:value-of select="prompt"/></td>
 </tr>
 </xsl:for-each>
