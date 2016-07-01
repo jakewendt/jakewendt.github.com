@@ -10,8 +10,8 @@
 </tr></thead><tbody>
 <xsl:for-each select="study/questions/question">
 <tr>
-<td><xsl:value-of select="id"/></td>
-<td><xsl:value-of select="title"/></td>
+<td><xsl:attribute select="id"/></td>
+<td><xsl:attribute select="title"/></td>
 <td><xsl:value-of select="prompt"/></td>
 </tr>
 </xsl:for-each>
