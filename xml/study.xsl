@@ -2,6 +2,8 @@
 <html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <body style="font-family:Arial;font-size:12pt;background-color:#EEEEEE">
 
+<p><xsl:value-of select="study/introduction"/></p>
+
 <h2>Questions</h2>
 <table border="1"><thead><tr bgcolor="#9acd32">
 <th style="text-align:left">ID</th>
