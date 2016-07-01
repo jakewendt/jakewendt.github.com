@@ -22,8 +22,8 @@
 <td></td>
 <td><xsl:value-of select="@name"/></td>
 </tr>
-</xsl:for-each>
-</xsl:for-each>
+</xsl:for-each><!-- xsl:for-each select="./option" -->
+</xsl:for-each><!-- xsl:for-each select="/study/questions/question" -->
 </tbody></table>
 
 </body>
