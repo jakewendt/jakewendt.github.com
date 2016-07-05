@@ -5,7 +5,7 @@
 <p><xsl:value-of select="/study/introduction"/></p>
 
 <h2>Questions</h2>
-<table border="1"><thead><tr bgcolor="#AAAAFF">
+<table border="1"><thead><tr bgcolor="#BBF">
 	<th style="text-align:left">ID</th>
 	<th style="text-align:left">Title</th>
 	<th style="text-align:left" colspan="2">Prompt</th>
