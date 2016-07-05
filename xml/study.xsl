@@ -15,7 +15,7 @@
 	<tr>
 		<td><xsl:value-of select="@id"/></td>
 		<td><xsl:value-of select="@title"/></td>
-		<td colspan="2"><xsl:value-of select="prompt"/></td>
+		<td colspan="2"><xsl:value-of select="count(option)"/> : <xsl:value-of select="count(option) + 1"/> : <xsl:value-of select="prompt"/></td>
 	</tr>
 	<xsl:for-each select="./option">
 		<xsl:sort select="@ordering" data-type="number"/>
