@@ -13,17 +13,19 @@
 <xsl:for-each select="/study/questions/question">
 	<xsl:sort select="@ordering" data-type="number"/>
 	<tr>
-		<td><xsl:value-of select="@id"/></td>
-		<td><xsl:value-of select="@title"/></td>
 		<td>
-			<xsl:attribute name="colspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:value-of select="@id"/></td>
+		<td>
+			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:value-of select="@title"/></td>
+		<td>
+			<xsl:attribute name="colspan">2</xsl:attribute>
 			<xsl:value-of select="prompt"/></td>
 	</tr>
 	<xsl:for-each select="./option">
 		<xsl:sort select="@ordering" data-type="number"/>
 		<tr>
-			<td></td>
-			<td></td>
 			<td><xsl:value-of select="@value"/></td>
 			<td><xsl:value-of select="@name"/></td>
 		</tr>
