@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <head><style>
+body {
+	font-family: Calibri;
+	font-size: 12pt;
+	background-color: #EEEEEE
+}
 table {
 	border-collapse: collapse;
 }
@@ -23,7 +28,7 @@ tr.question {
 	border-top: 1px solid gray;
 }
 </style></head>
-<body style="font-family:Calibri;font-size:12pt;background-color:#EEEEEE">
+<body>
 
 <p><xsl:value-of select="/study/introduction"/></p>
 
