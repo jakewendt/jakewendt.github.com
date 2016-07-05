@@ -60,7 +60,6 @@ tr.question {
 		<tr>
 			<td><xsl:value-of select="@value"/></td>
 			<td><xsl:value-of select="@name"/></td>
-			<td></td>
 		</tr>
 	</xsl:for-each><!-- xsl:for-each select="./option" -->
 </xsl:for-each><!-- xsl:for-each select="/study/questions/question" -->
