@@ -55,7 +55,7 @@ tr.question {
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 <xsl:if test="@answerReasonExpressionId">
 <xsl:value-of select="@answerReasonExpressionId"/>
-<xsl:value-of select="/study/expressions/expression[id=@answerReasonExpressionId]@questionId"/>
+<xsl:value-of select="/study/expressions/expression[@id=@answerReasonExpressionId]/@questionId"/>
 </xsl:if></td>
 	</tr>
 	<xsl:for-each select="./option">
