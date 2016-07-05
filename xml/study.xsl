@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<head><style>
+table {
+	border-collapse: collapse;
+}
+table, td, th {
+	border: 1px solid black;
+}
+table thead tr {
+	background-color: #BBF;
+}
+tr {
+	vertical-align: top;
+}
+th {
+	text-align: left;
+}
+</style></head>
 <body style="font-family:Calibri;font-size:12pt;background-color:#EEEEEE">
 
 <p><xsl:value-of select="/study/introduction"/></p>
 
 <h2>Questions</h2>
-<table border="1"><thead><tr bgcolor="#BBF">
-	<th style="text-align:left">ID</th>
-	<th style="text-align:left">Title</th>
-	<th style="text-align:left" colspan="2">Prompt</th>
+<table><thead><tr>
+	<th>ID</th>
+	<th>Title</th>
+	<th colspan="2">Prompt</th>
 </tr></thead><tbody>
 <xsl:for-each select="/study/questions/question">
 	<xsl:sort select="@ordering" data-type="number"/>
