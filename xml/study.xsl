@@ -25,7 +25,7 @@ td, th {
 	padding: 5px;
 }
 tr.question {
-	border-top: 1px solid gray;
+	border-bottom: 3px double black;
 }
 </style></head>
 <body>
