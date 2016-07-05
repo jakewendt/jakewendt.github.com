@@ -19,6 +19,9 @@ th {
 td, th {
 	padding: 5px;
 }
+tr.question {
+	border-top: 1px solid gray;
+}
 </style></head>
 <body style="font-family:Calibri;font-size:12pt;background-color:#EEEEEE">
 
@@ -32,7 +35,7 @@ td, th {
 </tr></thead><tbody>
 <xsl:for-each select="/study/questions/question">
 	<xsl:sort select="@ordering" data-type="number"/>
-	<tr>
+	<tr class='question'>
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@id"/></td>
