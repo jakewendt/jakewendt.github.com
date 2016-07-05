@@ -53,7 +53,9 @@ tr.question {
 			<xsl:value-of select="prompt"/></td>
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
-			<xsl:value-of select="@answerReasonExpressionId"/></td>
+<xsl:if test="@answerReasonExpressionId">
+			<xsl:value-of select="@answerReasonExpressionId"/>
+</xsl:if></td>
 	</tr>
 	<xsl:for-each select="./option">
 		<xsl:sort select="@ordering" data-type="number"/>
