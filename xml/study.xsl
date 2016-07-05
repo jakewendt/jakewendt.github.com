@@ -16,6 +16,9 @@ tr {
 th {
 	text-align: left;
 }
+td, th {
+	padding: 5px;
+}
 </style></head>
 <body style="font-family:Calibri;font-size:12pt;background-color:#EEEEEE">
 
