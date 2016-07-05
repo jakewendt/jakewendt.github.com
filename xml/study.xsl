@@ -8,7 +8,7 @@
 <table border="1"><thead><tr bgcolor="#FFFF88">
 	<th style="text-align:left">ID</th>
 	<th style="text-align:left">Title</th>
-	<th style="text-align:left">Prompt</th>
+	<th style="text-align:left" colspan="2">Prompt</th>
 </tr></thead><tbody>
 <xsl:for-each select="/study/questions/question">
 	<xsl:sort select="@ordering" data-type="number"/>
