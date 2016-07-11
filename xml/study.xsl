@@ -52,7 +52,12 @@ tr.question {
 <xsl:apply-templates select="/study/questions/question[@subjectType='EGO']">
 	<xsl:sort select="@ordering" data-type="number"/>
 </xsl:apply-templates>
-<!-- ALTER NETWORK -->
+<xsl:apply-templates select="/study/questions/question[@subjectType='ALTER']">
+	<xsl:sort select="@ordering" data-type="number"/>
+</xsl:apply-templates>
+<xsl:apply-templates select="/study/questions/question[@subjectType='NETWORK']">
+	<xsl:sort select="@ordering" data-type="number"/>
+</xsl:apply-templates>
 
 </tbody></table>
 
