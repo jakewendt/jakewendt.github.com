@@ -36,18 +36,22 @@ tr.question {
 <table><thead><tr>
 	<th>ID</th>
 	<th>Ordering</th>
-<!--
-	<th>networkRelationshipExprId</th>
-	<th>networkParams</th>
-	<th>askingStyleList</th>
--->
 	<th>subjectType</th>
 	<th>Title</th>
 	<th colspan="2">Prompt</th>
 	<th>Dependency</th>
 </tr></thead><tbody>
-<xsl:for-each select="/study/questions/question">
+
+<xsl:apply-templates select="/study/questions/question">
 	<xsl:sort select="@ordering" data-type="number"/>
+</xsl:apply-templates>
+
+</tbody></table>
+
+</body>
+</html>
+
+<xsl:template match="question">
 	<tr class='question'>
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
@@ -55,25 +59,9 @@ tr.question {
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@ordering"/></td>
-
-<!--
-		<td>
-			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
-			<xsl:value-of select="@networkRelationshipExprId"/></td>
-16443	on first. All else blank.
-		<td>
-			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
-			<xsl:value-of select="@networkParams"/></td>
-{"nodeColor":{"questionId":"43545","options":[{"id":"234496","color":"#07f"},{"id":"234497","color":"#000"}]},"nodeShape":{"questionId":"43546","options":[{"id":"234630","shape":"circle"},{"id":"234631","shape":"square"}]},"nodeSize":{"questionId":"degree","options":[]}}	on first. All else blank.
-		<td>
-			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
-			<xsl:value-of select="@askingStyleList"/></td>
--->
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@subjectType"/></td>
-
-
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@title"/></td>
@@ -95,8 +83,5 @@ Question:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@questi
 			<td><xsl:value-of select="@name"/></td>
 		</tr>
 	</xsl:for-each><!-- xsl:for-each select="./option" -->
-</xsl:for-each><!-- xsl:for-each select="/study/questions/question" -->
-</tbody></table>
+</xsl:template><!-- match="question" -->
 
-</body>
-</html>
