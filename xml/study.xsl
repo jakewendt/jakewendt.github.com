@@ -35,6 +35,10 @@ tr.question {
 <h2>Questions</h2>
 <table><thead><tr>
 	<th>ID</th>
+	<th>Ordering</th>
+	<th>answerReasonExpressionId</th>
+	<th>networkRelationshipExprId</th>
+	<th>networkParams</th>
 	<th>Title</th>
 	<th colspan="2">Prompt</th>
 	<th>Dependency</th>
@@ -45,6 +49,20 @@ tr.question {
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@id"/></td>
+		<td>
+			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:value-of select="@ordering"/></td>
+
+		<td>
+			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:value-of select="@answerReasonExpressionId"/></td>
+		<td>
+			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:value-of select="@networkRelationshipExprId"/></td>
+		<td>
+			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
+			<xsl:value-of select="@networkParams"/></td>
+
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@title"/></td>
