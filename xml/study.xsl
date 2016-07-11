@@ -36,9 +36,10 @@ tr.question {
 <table><thead><tr>
 	<th>ID</th>
 	<th>Ordering</th>
-	<th>answerReasonExpressionId</th>
+<!--
 	<th>networkRelationshipExprId</th>
 	<th>networkParams</th>
+-->
 	<th>Title</th>
 	<th colspan="2">Prompt</th>
 	<th>Dependency</th>
@@ -53,16 +54,16 @@ tr.question {
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@ordering"/></td>
 
-		<td>
-			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
-			<xsl:value-of select="@answerReasonExpressionId"/></td>
+<!--
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@networkRelationshipExprId"/></td>
+16443	on first. All else blank.
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@networkParams"/></td>
-
+{"nodeColor":{"questionId":"43545","options":[{"id":"234496","color":"#07f"},{"id":"234497","color":"#000"}]},"nodeShape":{"questionId":"43546","options":[{"id":"234630","shape":"circle"},{"id":"234631","shape":"square"}]},"nodeSize":{"questionId":"degree","options":[]}}	on first. All else blank.
+-->
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 			<xsl:value-of select="@title"/></td>
