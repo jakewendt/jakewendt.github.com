@@ -46,9 +46,13 @@ tr.question {
 	<th>Dependency</th>
 </tr></thead><tbody>
 
-<xsl:apply-templates select="/study/questions/question">
+<xsl:apply-templates select="/study/questions/question[@subjectType='EGO_ID']">
 	<xsl:sort select="@ordering" data-type="number"/>
 </xsl:apply-templates>
+<xsl:apply-templates select="/study/questions/question[@subjectType='EGO']">
+	<xsl:sort select="@ordering" data-type="number"/>
+</xsl:apply-templates>
+<!-- ALTER NETWORK -->
 
 </tbody></table>
 
