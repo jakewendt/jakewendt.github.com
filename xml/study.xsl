@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="1.0"
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
@@ -81,13 +81,14 @@ tr.question {
 			<xsl:value-of select="@title"/></td>
 		<td>
 			<xsl:attribute name="colspan">2</xsl:attribute>
-<!--
 			<xsl:value-of select="prompt"/></td>
+<!--
+Seems browsers don't use XSL 2.0 and therefore no functions?
 			<xsl:variable name='prompt' select="prompt"/>
 			<xsl:value-of select="replace( $prompt, 'br', '' )"/>
 </td>
--->
 			<xsl:value-of select="fn:replace( prompt, 'br', '')"/></td>
+-->
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 <xsl:if test="@answerReasonExpressionId != ''">
