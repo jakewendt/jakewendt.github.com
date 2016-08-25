@@ -87,7 +87,6 @@ tr.question {
 			<xsl:variable name='prompt' select="replace($prompt,'&lt;br&gt;','')"/>
 -->
 			<xsl:value-of select="$prompt"/></td>
-		</td>
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 <xsl:if test="@answerReasonExpressionId != ''">
