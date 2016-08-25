@@ -13,10 +13,11 @@
       <xsl:for-each select="catalog/cd">
       <tr>
         <td><xsl:value-of select="title"/></td>
-        <td><xsl:value-of select="replace(artist,' ','*')"/></td>
+        <td><xsl:value-of select="artist"/></td>
       </tr>
       </xsl:for-each>
     </table>
+<p><xsl:value-of select="replace('testing','test','TEST')"/></p>
   </body>
   </html>
 </xsl:template>
