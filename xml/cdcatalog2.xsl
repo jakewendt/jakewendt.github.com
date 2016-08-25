@@ -17,7 +17,9 @@
       </tr>
       </xsl:for-each>
     </table>
+<p><xsl:value-of select="'testing'"/></p>
 <p><xsl:value-of select="replace('testing','test','TEST')"/></p>
+<p><xsl:value-of select="'end testing'"/></p>
   </body>
   </html>
 </xsl:template>
