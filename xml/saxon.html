@@ -1,8 +1,17 @@
 <html>
 <head>
 <script type="text/javascript" language="javascript" src="saxon/Saxonce.nocache.js"></script>
+<!--
 <script type="application/xslt+xml" language="xslt2.0" src="cdcatalog2.xsl" 
                       input="cdcatalog.xml"></script>
+-->
+<script>
+var onSaxonLoad = function() {
+    Saxon.run( {
+        stylesheet:   "cdcatalog2.xsl",
+        source:       "cdcatalog.xml"
+});
+</script>
 </head>
 <body>
 <p>Deving this. Saxon seems to require special xslt content to direct the output to existing html tags, rather than putting the entire output in one place and letting the xsl control the sub content, which I find undesireable. Or perhaps I've misunderstood. Let's see.</p>
