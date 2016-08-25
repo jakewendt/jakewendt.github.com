@@ -84,8 +84,8 @@ tr.question {
 			<xsl:variable name='prompt' select="prompt"/>
 <!--
 			<xsl:variable name='prompt' select="replace($prompt,'&lt;/p&gt;&lt;p&gt;',' ')"/>
--->
 			<xsl:variable name='prompt' select="replace($prompt,'&lt;br&gt;','')"/>
+-->
 			<xsl:value-of select="$prompt"/></td>
 		</td>
 		<td>
