@@ -1,0 +1,14 @@
+<html>
+<head>
+<script type="text/javascript" src="xslt.pack.js">
+</head>
+<body>
+<div id="transformResult"></div>
+<script type="text/javascript">
+window.onload = function() {
+    new Transformation().setXml("cdcatalog.xml")
+        .setXslt("cdcatalog2.xsl").transform("transformResult");
+}
+</script>
+</body>
+</html>
