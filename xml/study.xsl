@@ -94,7 +94,9 @@ Seems browsers don't use XSL 2.0 and therefore no functions?
 <xsl:if test="@answerReasonExpressionId != ''">
 Expression:<xsl:value-of select="@answerReasonExpressionId"/>, 
 <xsl:variable name="expid" select="@answerReasonExpressionId" />
-Question:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@questionId"/>
+QuestionId:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@questionId"/><br/>
+Name:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@name"/><br/>
+Value:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@value"/><br/>
 </xsl:if></td>
 	</tr>
 	<xsl:for-each select="./option">
