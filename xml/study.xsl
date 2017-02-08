@@ -96,7 +96,7 @@ Expression:<xsl:value-of select="@answerReasonExpressionId"/>,
 <xsl:variable name="expid" select="@answerReasonExpressionId" />
 QuestionId:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@questionId"/><br/>
 Name:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@name"/><br/>
-Value:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@value"/><br/>
+Value:<xsl:value-of select="/study/expressions/expression[@id=$expid]/value"/><br/>
 </xsl:if></td>
 	</tr>
 	<xsl:for-each select="./option">
