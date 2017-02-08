@@ -92,8 +92,8 @@ Seems browsers don't use XSL 2.0 and therefore no functions?
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 <xsl:if test="@answerReasonExpressionId != ''">
-Expression:<xsl:value-of select="@answerReasonExpressionId"/>, 
-<xsl:variable name="expid" select="@answerReasonExpressionId" />
+Expression:<xsl:value-of select="@answerReasonExpressionId"/>
+<xsl:variable name="expid" select="@answerReasonExpressionId" /><br/>
 QuestionId:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@questionId"/><br/>
 Name:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@name"/><br/>
 Value:<xsl:value-of select="/study/expressions/expression[@id=$expid]/value"/><br/>
