@@ -1,0 +1,65 @@
+<html>
+<head>
+<style>
+
+/*	Make links, buttons and submit buttons look the same. */
+
+a:link,
+a:visited,
+a:hover,
+a:active,
+a, button, input[type="submit"] {
+	font-size: 20pt;
+	font-weight: bold;
+	margin: 10px;
+	padding: 10px;
+
+	cursor: pointer;
+	border: 1px solid black;
+	text-decoration: none;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+
+
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+/*	box-sizing: border-box; Not sure what this would do. */
+
+	display: inline-block;
+	text-align: center;
+	white-space: pre;
+
+	color: black;
+	background-color: #DDDDDD;
+
+/*
+	background or background-image ???
+*/
+/* for webkit browsers */
+	background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#CCCCCC));
+/* for firefox 3.6+  */
+	background: -moz-linear-gradient(top,  #EEEEEE,  #CCCCCC);
+/* for ie , but doesn't seem to work as expected despite other examples working */
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#EEEEEE', EndColorStr='#CCCCCC');
+}
+
+</style>
+</head>
+<body>
+<form>
+<div>
+<a href='http://cnn.com'>This is CNN</a>
+</div>
+
+<div>
+<button>This is CNN</button>
+</div>
+
+<div>
+<input type="submit" value="This is CNN"/>
+</div>
+</form>
+</body>
+</html>
