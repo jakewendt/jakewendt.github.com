@@ -89,6 +89,7 @@ Seems browsers don't use XSL 2.0 and therefore no functions?
 </td>
 			<xsl:value-of select="fn:replace( prompt, 'br', '')"/></td>
 -->
+<!--
 		<td>
 			<xsl:attribute name="rowspan"><xsl:value-of select="count(option) + 1"/></xsl:attribute>
 <xsl:if test="@answerReasonExpressionId != ''">
@@ -98,6 +99,7 @@ QuestionId:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@ques
 Name:<xsl:value-of select="/study/expressions/expression[@id=$expid]/@name"/><br/>
 Value:<xsl:value-of select="/study/expressions/expression[@id=$expid]/value"/><br/>
 </xsl:if></td>
+-->
 	</tr>
 	<xsl:for-each select="./option">
 		<xsl:sort select="@ordering" data-type="number"/>
