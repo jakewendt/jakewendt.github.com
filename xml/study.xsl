@@ -43,7 +43,9 @@ tr.question {
 	<th>subjectType</th>
 	<th>Title</th>
 	<th colspan="2">Prompt</th>
+<!--
 	<th>Dependency</th>
+-->
 </tr></thead><tbody>
 
 <xsl:apply-templates select="/study/questions/question[@subjectType='EGO_ID']">
@@ -55,9 +57,11 @@ tr.question {
 <xsl:apply-templates select="/study/questions/question[@subjectType='ALTER']">
 	<xsl:sort select="@ordering" data-type="number"/>
 </xsl:apply-templates>
+<!--
 <xsl:apply-templates select="/study/questions/question[@subjectType='NETWORK']">
 	<xsl:sort select="@ordering" data-type="number"/>
 </xsl:apply-templates>
+-->
 
 </tbody></table>
 
