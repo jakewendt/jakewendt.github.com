@@ -20,19 +20,19 @@ $(function(){
 */
 	bodies.push( new Body({ 
 		name: 'Sun1', 
-		radius: 3e8,
+		radius: 1e9,
 		mass:     1e30,
 		color: 'gold',
-		position: [3e9,0],	// m
-		velocity: [0,9e4]  // m/s
+		position: [3e10,0],	// m
+		velocity: [0,2e4]  // m/s
 	}) );
 	bodies.push( new Body({ 
 		name: 'Sun2', 
-		radius: 3e8,
+		radius: 1e9,
 		mass:     1e30,
 		color: 'gold',
-		position: [-3e9,0],	// m
-		velocity: [0,-9e4]  // m/s
+		position: [-3e10,0],	// m
+		velocity: [0,-2e4]  // m/s
 	}) );
 
 
@@ -98,7 +98,7 @@ $(function(){
 
 	var system = new OrbitalSystem({ 
 		scale: 1e9,
-		delta_t: 12*3600, //		72*3600,	//	default
+		delta_t: 3*3600, //		72*3600,	//	default
 		bodies: bodies });
 
 	$.each(bodies,function(){
