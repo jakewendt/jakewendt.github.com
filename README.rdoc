@@ -45,3 +45,30 @@ https://pages.github.com
 https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages
 
 http://opentechschool.github.io/social-coding/extras/pages.html
+
+
+
+== 20250411
+
+I noticed that the sites weren't working. They couldn't be reached. I haven't changed anything is quite some time.
+
+
+I created and verified a domain by adding a TXT record on my goddady page.
+
+https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages
+
+	dig _github-pages-challenge-jakewendt.jakewendt.com +nostats +nocomments +nocmd TXT
+
+
+
+Still not working. Now says I'm using a deprecated ip. This is more helpful. Searching.
+
+https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+
+
+  dig jakewendt.COM +noall +answer -t A
+
+  dig jakewendt.COM +noall +answer -t AAAA
+
+
+
